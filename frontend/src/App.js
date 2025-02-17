@@ -32,6 +32,7 @@ import InventoryLevelListScreen from "./screens/InventoryLevelListScreen";
 import SalaryListScreen from "./screens/SalaryListScreen";
 import FinancialSummaryScreen from "./screens/FinancialSummaryScreen";
 import BillScreen from "./screens/BillScreen";
+import "./index.css";
 
 const App = () => {
   const withHeader = () => {

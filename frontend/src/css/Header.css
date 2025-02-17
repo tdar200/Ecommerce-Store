@@ -1,0 +1,36 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #062233;
+}
+
+.navbar-container {
+  width: 100px
+}
+
+.navbar-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    color: #fff;
+    font-family: verdana;
+    margin-right: 1rem;
+  }
+
+.icon {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  }
+
+.icon svg {
+  font-size: 1rem;
+}
+

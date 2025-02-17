@@ -1,12 +1,22 @@
-import React from "react";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import { LinkContainer, Text } from "react-router-bootstrap";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
+
+import { BREAKPOINTS } from "../hooks/isMobileScreen";
+
+import isMobileScreen from "../hooks/isMobileScreen";
+
 import logo from "../../src/BACKYARD-BBQ.svg";
+import PersonIcon from "@mui/icons-material/Person";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
+import "../css/Header.css";
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
   const dispatch = useDispatch();
+  const device = isMobileScreen();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -16,129 +26,68 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <Navbar
-        style={{ backgroundColor: "#ed1c24" }}
-        variant='dark'
-        expand='lg'
-        collapseOnSelect>
-        <Container style={{ display: "contents" }}>
-          <LinkContainer to='/'>
-            <img
-              style={{ height: "80px", width: "200px", cursor: "pointer" }}
-              src={logo}
-              alt='BACKYARD BBQ RESTAURANT'
-              className='image-media'
-            />
-          </LinkContainer>
-          {/* <Route render={({ history }) => <SearchBox history={history} />} /> */}
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse
-            style={{
-              backgroundColor: "#ed1c24",
-              zIndex: 1,
-              transition: "none 0s ease 0s",
-            }}
-            id='basic-navbar-nav'>
-            <Nav style={{ textTransform: "uppercase" }} className='ml-auto '>
-              {userInfo ? (
-                <NavDropdown title={userInfo.name} id='username'>
-                  <LinkContainer to='/profile'>
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
-              ) : (
-                <LinkContainer to='/login'>
-                  <Nav.Link>
-                    <i className='fas fa-user'></i> SIGN IN
-                  </Nav.Link>
-                </LinkContainer>
-              )}
-              {userInfo && userInfo.isAdmin && (
-                <NavDropdown title='ADMIN' id='adminmenu'>
-                  <LinkContainer to='/admin/userlist'>
-                    <NavDropdown.Item>Users</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/productlist'>
-                    <NavDropdown.Item>Products</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/orderlist'>
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/inventorylist'>
-                    <NavDropdown.Item>Expenses</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/receiptlist'>
-                    <NavDropdown.Item>Receipts</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/salarylist'>
-                    <NavDropdown.Item>Salaries</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/recipelist'>
-                    <NavDropdown.Item>Recipes</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/inventorylevellist'>
-                    <NavDropdown.Item>Inventory Levels</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/billlist'>
-                    <NavDropdown.Item>
-                      Bill Payable / Recieavable
-                    </NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/financialsummary'>
-                    <NavDropdown.Item>Financial Summary</NavDropdown.Item>
-                  </LinkContainer>
-                </NavDropdown>
-              )}
-              <LinkContainer to='/products'>
-                <Nav.Link className='header-font'>MENU</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to='/cart'>
-                <Nav.Link className='header-font'>
-                  <i className='fas fa-shopping-cart'></i> CART
-                </Nav.Link>
-              </LinkContainer>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      <div
-        style={{
-          height: "50px",
-          backgroundColor: "floralwhite",
-          display: "grid",
-          boxShadow: "0 1px 2px 0 hsl(0deg 0% 61% / 50%)",
-          justifyContent: "center",
-          textAlign: "center",
-          alignItems: "center",
-        }}>
-        <a
-          href={"https://goo.gl/maps/SuVkFVGJGHUektEk6"}
-          target='_blank'
-          rel='noreferrer'>
-          <i
-            style={{
-              marginRight: "9px",
-              color: "#ed1c24",
-              alignSelf: "center",
-              fontSize: "27px",
-            }}
-            className='fas fa-map-marker-alt'></i>
-          <text
-            style={{
-              color: "darkorange",
-              fontSize: "20px",
-              fontWeight: "400",
-              letterSpacing: ".05rem",
-            }}>
-            Find us on Google Maps
-          </text>
+    <nav className='navbar'>
+      <div className='navbar-container'>
+        <a href='/'>
+          <img
+            src={logo}
+            alt='BACKYARD BBQ RESTAURANT'
+            className='navbar-logo'
+          />
+        </a>
+        {device < BREAKPOINTS.tablet && (
+          <button className='navbar-toggle' onClick={() => setIsOpen(!isOpen)}>
+            ☰
+          </button>
+        )}
+      </div>
+      <div className={`navbar-links ${isOpen ? "open" : ""}`}>
+        {userInfo ? (
+          <div className='dropdown'>
+            <button className='dropdown-toggle'>{userInfo.name}</button>
+            <div className='dropdown-menu'>
+              <a href='/profile'>Profile</a>
+              <button onClick={logoutHandler}>Logout</button>
+            </div>
+          </div>
+        ) : (
+          <a className='link' href='/login'>
+            <span className='icon'>
+              {" "}
+              <PersonIcon fontSize='small' /> SIGN IN{" "}
+            </span>
+          </a>
+        )}
+        {userInfo && userInfo.isAdmin && (
+          <div className='dropdown'>
+            <button
+              className='dropdown-toggle'
+              onClick={() => setAdminOpen(!adminOpen)}>
+              ADMIN
+            </button>
+            <div className={`dropdown-menu ${adminOpen ? "open" : ""}`}>
+              <a href='/admin/userlist'>Users</a>
+              <a href='/admin/productlist'>Products</a>
+              <a href='/admin/orderlist'>Orders</a>
+              <a href='/admin/inventorylist'>Expenses</a>
+              <a href='/admin/receiptlist'>Receipts</a>
+              <a href='/admin/salarylist'>Salaries</a>
+              <a href='/admin/recipelist'>Recipes</a>
+              <a href='/admin/inventorylevellist'>Inventory Levels</a>
+              <a href='/admin/billlist'>Bill Payable / Receivable</a>
+              <a href='/admin/financialsummary'>Financial Summary</a>
+            </div>
+          </div>
+        )}
+
+        <a className='link' href='/cart'>
+          <span className='icon'>
+            {" "}
+            <ShoppingCartIcon className='icon' fontSize='small' /> CART
+          </span>
         </a>
       </div>
-    </header>
+    </nav>
   );
 };
 

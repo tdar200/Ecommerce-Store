@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { DateRangePicker } from "react-date-range";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
+// import { DateRangePicker } from "react-date-range";
+// import "react-date-range/dist/styles.css";
+// import "react-date-range/dist/theme/default.css";
 import {
   groupInventory,
   listDatesInventory,
@@ -91,12 +91,13 @@ const FinancialSummaryScreen = (props) => {
         <>
           <div className='banner_search'>
             {showSearch && (
-              <div className='search'>
-                <DateRangePicker
-                  ranges={[selectionRange]}
-                  onChange={handleSelect}></DateRangePicker>
-                <Button onClick={handleSubmit}>Search Inventory</Button>
-              </div>
+              <></>
+              // <div className='search'>
+              //   <DateRangePicker
+              //     ranges={[selectionRange]}
+              //     onChange={handleSelect}></DateRangePicker>
+              //   <Button onClick={handleSubmit}>Search Inventory</Button>
+              // </div>
             )}
             <Button
               className='banner_searchButton'
@@ -147,10 +148,10 @@ const FinancialSummaryScreen = (props) => {
           <div className='banner_search'>
             {showSearch && (
               <div className='search'>
-                <DateRangePicker
+                {/*    <DateRangePicker
                   ranges={[selectionRange]}
                   onChange={handleSelect}></DateRangePicker>
-                <Button onClick={handleSubmit}>Search Inventory</Button>
+                <Button onClick={handleSubmit}>Search Inventory</Button> */}
               </div>
             )}
             <Button
