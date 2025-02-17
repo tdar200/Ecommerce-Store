@@ -8,6 +8,8 @@ import Loader from "../components/Loader";
 import { listTopProducts } from "../actions/productActions";
 import ItemsCarousel from "react-items-carousel";
 import NavigationBar from "../components/NavigationBar";
+import Carousel from "../components/Carousel";
+import Component1 from "../components/HomeScreen/Component1";
 
 const HomeScreen = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -36,49 +38,8 @@ const HomeScreen = ({ match, history }) => {
       {!loading && (
         <>
           <NavigationBar />
-          <div
-            style={{
-              backgroundImage: `url(${
-                products && products[2]?.variants?.variant_image
-              })`,
-              height: "65vh",
-              backgroundSize: "cover",
-              flex: 1,
-            }}
-            className='div-image'>
-            <div
-              style={{
-                display: "grid",
-                height: "100%",
-                justifyItems: "center",
-                alignContent: "center",
-              }}>
-              <h1
-                style={{
-                  color: "white",
-                  textShadow: "3px 3px black",
-                  textAlign: "center",
-                }}>
-                ENJOY ALL YOUR FAVORITE MEALS AT
-              </h1>
-              <h2
-                style={{
-                  color: "white",
-                  textAlign: "center",
-                  textShadow: "3px 3px black",
-                }}>
-                BACKYARD BBQ RESTAURANT
-              </h2>
-              <Link
-                style={{ justifyContent: "center", display: "flex" }}
-                to='/products'>
-                <button className='center' variant='contained'>
-                  START ORDER
-                </button>
-              </Link>
-            </div>
-          </div>
-
+          <Carousel />
+          <Component1 />
           <>
             <h3
               style={{
