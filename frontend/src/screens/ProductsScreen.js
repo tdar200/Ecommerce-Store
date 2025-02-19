@@ -1,92 +1,189 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Card } from "react-bootstrap";
+// import { Row, Col, Card } from "react-bootstrap";
+import Card from "../components/Card";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listProducts } from "../actions/productActions";
+import { useLocation } from "react-router-dom/cjs/react-router-dom";
 
-const ProductsScreen = ({ match }) => {
-  // const keyword = match.params.keyword;
-  // const pageNumber = match.params.pageNumber || 1;
+import get from "lodash/get";
+import styles from "../css/Products.module.css";
 
+const PAGE_TYPE = {
+  bestSellers: {},
+  newlyAdded: {},
+  accessories: {},
+  women: {},
+  men: {},
+  healthAndBeauty: {},
+  products: {
+    id: 1,
+    title: "ALL PRODUCTS",
+    items: [
+      {
+        _id: "61287a98d783f13644c57723",
+        rating: 0,
+        itemName: "gray pallette socks",
+        size: "medium",
+        stockQuantity: 1,
+        price: "9.50",
+        currency: "pounds",
+        color: "white",
+        categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
+        imageUrl:
+          "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
+        option1Name: "sock",
+        option2Name: null,
+        createdAt: "2019-05-07T23:13:18.000Z",
+        updatedAt: "2021-08-26T05:39:45.000Z",
+        user: "61287a98d783f13644c5770c",
+        reviews: [],
+      },
+      {
+        _id: "61287a98d783f13644c57723",
+        rating: 0,
+        itemName: "gray pallette socks",
+        size: "medium",
+        stockQuantity: 1,
+        price: "9.50",
+        currency: "pounds",
+        color: "white",
+        categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
+        imageUrl:
+          "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
+        option1Name: "sock",
+        option2Name: null,
+        createdAt: "2019-05-07T23:13:18.000Z",
+        updatedAt: "2021-08-26T05:39:45.000Z",
+        user: "61287a98d783f13644c5770c",
+        reviews: [],
+      },
+      {
+        _id: "61287a98d783f13644c57723",
+        rating: 0,
+        itemName: "gray pallette socks",
+        size: "medium",
+        stockQuantity: 1,
+        price: "9.50",
+        currency: "pounds",
+        color: "white",
+        categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
+        imageUrl:
+          "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
+        option1Name: "sock",
+        option2Name: null,
+        createdAt: "2019-05-07T23:13:18.000Z",
+        updatedAt: "2021-08-26T05:39:45.000Z",
+        user: "61287a98d783f13644c5770c",
+        reviews: [],
+      },
+      {
+        _id: "61287a98d783f13644c57723",
+        rating: 0,
+        itemName: "gray pallette socks",
+        size: "medium",
+        stockQuantity: 1,
+        price: "9.50",
+        currency: "pounds",
+        color: "white",
+        categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
+        imageUrl:
+          "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
+        option1Name: "sock",
+        option2Name: null,
+        createdAt: "2019-05-07T23:13:18.000Z",
+        updatedAt: "2021-08-26T05:39:45.000Z",
+        user: "61287a98d783f13644c5770c",
+        reviews: [],
+      },
+      {
+        _id: "61287a98d783f13644c57723",
+        rating: 0,
+        itemName: "gray pallette socks",
+        size: "medium",
+        stockQuantity: 1,
+        price: "9.50",
+        currency: "pounds",
+        color: "white",
+        categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
+        imageUrl:
+          "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
+        option1Name: "sock",
+        option2Name: null,
+        createdAt: "2019-05-07T23:13:18.000Z",
+        updatedAt: "2021-08-26T05:39:45.000Z",
+        user: "61287a98d783f13644c5770c",
+        reviews: [],
+      },
+      {
+        _id: "61287a98d783f13644c57723",
+        rating: 0,
+        itemName: "gray pallette socks",
+        size: "medium",
+        stockQuantity: 1,
+        price: "9.50",
+        currency: "pounds",
+        color: "white",
+        categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
+        imageUrl:
+          "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
+        option1Name: "sock",
+        option2Name: null,
+        createdAt: "2019-05-07T23:13:18.000Z",
+        updatedAt: "2021-08-26T05:39:45.000Z",
+        user: "61287a98d783f13644c5770c",
+        reviews: [],
+      },
+    ],
+  },
+};
+
+const ProductsScreen = () => {
   const dispatch = useDispatch();
 
+  const { pathname } = useLocation();
+  const pageName = pathname.split("/")[1];
+
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  // const { loading, error, products } = productList;
+
+  const loading = false;
+  const error = null;
 
   useEffect(() => {
     dispatch(listProducts());
   }, [dispatch]);
 
-  // console.log(productList);
+  const currentPage = PAGE_TYPE?.[pageName];
+
+  const products = get(currentPage, "items", []);
+  const title = get(currentPage, "title", "");
+
+  console.log({ currentPage, products });
 
   return (
-    <div style={{marginTop: "2rem"}}>
+    <div>
       <Helmet>
-        <title>Welcome to Backyard BBQ</title>
+        <title>BACKYARD STORE</title>
         <meta
           name='description'
-          content='Retaurant online store for delivery'
-        ></meta>
+          content='Retaurant online store for delivery'></meta>
       </Helmet>
 
-      {/* {!keyword && <ProductCarousel />} */}
-      <h1 style={{ textAlign: "center" }}>BACKYARD BBQ'S MENU</h1>
+      <h1 style={{ textAlign: "center" }}>{title}</h1>
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant='danger'>{error}is</Message>
       ) : (
-        <Row style={{ display: "flex", justifyContent: "center",  }}>
-          {products.map((product, idx) => {
-            if (
-              product.item_name !== "Cigarette" &&
-              product.item_name !== "Delivery Charges" &&
-              product.item_name !== "Crockery"
-            ) {
-              return (
-                <Col
-                  
-                  key={idx}
-                  sm={16}
-                  md={6}
-                  lg={4}
-                  xl={3}
-
-                  className="products-card"
-                >
-                  <Card key={idx} className='my-3 p-3 rounded'>
-                    <Link
-                      style={{
-                        boxShadow: "0 2px 10px 0 hsl(0deg 0% 61% / 50%)",
-                      }}
-                      to={`/product/${product._id}`}
-                    >
-                      <Card.Img
-                        style={{
-                          width: "100%",
-                          height: "350px",
-                          borderRadius: 3,
-                          objectFit: "cover",
-                        }}
-                        src={product.image_url}
-                        variant='top'
-                      />
-                    </Link>
-
-                    <Card.Body>
-                      <Card.Title as='div'>
-                        <strong>{product.item_name}</strong>
-                      </Card.Title>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              );
-            }
+        <div className={styles.productsContainer}>
+          {products.map((product) => {
+            return <Card key={product?._id} {...product} />;
           })}
-        </Row>
+        </div>
       )}
     </div>
   );

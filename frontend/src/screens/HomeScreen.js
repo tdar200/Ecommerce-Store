@@ -2,14 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Card, Container } from "react-bootstrap";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
 import { listTopProducts } from "../actions/productActions";
-import ItemsCarousel from "react-items-carousel";
-import NavigationBar from "../components/NavigationBar";
 import Carousel from "../components/Carousel";
-import Component1 from "../components/HomeScreen/Component1";
+import ExploreProducts from "../components/HomeScreen/ExploreProducts";
+import DealsComponent from "../components/HomeScreen/DealsComponent";
 
 const HomeScreen = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -17,8 +13,6 @@ const HomeScreen = ({ match, history }) => {
   const productTopRated = useSelector((state) => state.productTopRated);
   const { loading, error, products } = productTopRated;
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
-  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     dispatch(listTopProducts());
@@ -37,80 +31,9 @@ const HomeScreen = ({ match, history }) => {
 
       {!loading && (
         <>
-          <NavigationBar />
+          <ExploreProducts />
+          <DealsComponent />
           <Carousel />
-          <Component1 />
-          <>
-            <h3
-              style={{
-                textAlign: "center",
-                fontFamily: "Montserrat,sans-serif",
-                fontWeight: "900",
-                color: "#4a4a4a",
-              }}>
-              BACKYARD BBQ'S DEALS
-            </h3>
-            {loading ? (
-              <Loader />
-            ) : error ? (
-              <Message variant='danger'>{error} </Message>
-            ) : (
-              <div className='carousel-slider'>
-                <ItemsCarousel
-                  requestToChangeActive={setIndex}
-                  activeItemIndex={index}
-                  numberOfCards={screenWidth < 850 ? 1 : 3}
-                  gutter={20}
-                  leftChevron={
-                    <i
-                      style={{ color: "black" }}
-                      className='fas fa-chevron-circle-left'></i>
-                  }
-                  rightChevron={
-                    <i
-                      style={{ color: "black" }}
-                      className='fas fa-chevron-circle-right'></i>
-                  }
-                  outsideChevron
-                  chevronWidth={40}
-                  slidesToScroll={screenWidth < 850 ? 1 : 3}
-                  alwaysShowChevrons={false}
-                  className='carousel-card'>
-                  {products.map((product, idx) => {
-                    return (
-                      <Card
-                        style={{ border: "1px solid rgba(0, 0, 0, 0.125)" }}
-                        key={idx}
-                        className='my-3 p-3 rounded'>
-                        <Card.Img
-                          style={{
-                            width: "100%",
-                            height: "350px",
-                            borderRadius: 3,
-                            objectFit: "cover",
-                            cursor: "default",
-                          }}
-                          src={product.variants.variant_image}
-                          variant='top'
-                        />
-
-                        <Card.Body>
-                          <Card.Title as='div'>
-                            <strong>{product.variants.option1_value}</strong>
-                          </Card.Title>
-                        </Card.Body>
-                        <button
-                          onClick={() => handleClick(product._id)}
-                          className='center-smaller'>
-                          ADD TO ORDER
-                        </button>
-                      </Card>
-                    );
-                  })}
-                </ItemsCarousel>
-              </div>
-            )}
-          </>
         </>
       )}
 

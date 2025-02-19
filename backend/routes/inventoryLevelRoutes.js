@@ -247,7 +247,7 @@ async function intervalFunction() {
   }
 }
 
-setInterval(intervalFunction, 6000);
+// setInterval(intervalFunction, 6000);
 
 // router.route("/updateinventory").get(protect, admin);
 
