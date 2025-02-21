@@ -30,6 +30,8 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+console.log(process.env.NODE_ENV);
+
 app.use(express.json());
 
 app.use("/api/products", productRoutes);
@@ -63,7 +65,7 @@ app.get("/", (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = 6000;
+const PORT = 6001;
 
 app.listen(
   PORT,

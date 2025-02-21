@@ -25,22 +25,35 @@ const reviewSchema = mongoose.Schema(
   }
 );
 
-const variantSchema = mongoose.Schema({
-  variant_id: { type: String },
-  item_id: { type: String },
-  sku: { type: String },
-  reference_variant_id: { type: String },
-  option1_value: { type: String },
-  option2_value: { type: String },
-  cost: { type: Number },
-  default_pricing_type: { type: String },
-  default_price: { type: Number },
-  stores: { type: Array },
-  created_at: { type: String },
-  updated_at: { type: String },
-  deleted_at: { type: String },
-  variant_image: { type: String },
-});
+const categorySchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    description: {
+      type: String,
+    },
+    image_url: {
+      type: String,
+    },
+    is_active: {
+      type: Boolean,
+      default: true,
+    },
+    created_at: {
+      type: Date,
+      default: Date.now,
+    },
+    updated_at: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
 
 const productSchema = mongoose.Schema({
   user: {
@@ -55,16 +68,11 @@ const productSchema = mongoose.Schema({
   image_url: {
     type: String,
   },
-  id: {
-    type: String,
-    required: true,
-  },
   description: {
     type: String,
   },
   rating: {
     type: Number,
-
     default: 0,
   },
   category_id: {
@@ -76,20 +84,43 @@ const productSchema = mongoose.Schema({
   option2_name: {
     type: String,
   },
-  reviews: [reviewSchema],
-
-  variants: [variantSchema],
-  created_at: {
+  quantity: {
+    type: Number,
+  },
+  gender: {
     type: String,
     required: true,
+    enum: ["male", "female", "unisex"],
+  },
+  color: {
+    type: String,
+  },
+  purchase_price: {
+    type: Number,
+    required: true,
+  },
+  selling_price: {
+    type: Number,
+    required: true,
+  },
+  image_url: {
+    type: String,
+    required: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
   },
   updated_at: {
-    type: String,
-    required: true,
+    type: Date,
+    default: Date.now,
   },
-  sold_by_weight: {
-    type: String,
+  isFeatured: {
+    type: Boolean,
+    default: false,
   },
+  reviews: [reviewSchema],
+  category: [categorySchema],
 });
 
 const Product = mongoose.model("Product", productSchema);

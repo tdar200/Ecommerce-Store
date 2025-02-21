@@ -4,29 +4,29 @@ import styles from "./styles/Card.module.css";
 
 function Card({
   _id,
-  rating,
+  rating = 0,
   itemName,
   price,
   currency,
   size,
   stockQuantity,
   color,
-  categoryId,
+  category,
   imageUrl,
-  option1Name,
-  option2Name,
   createdAt,
   updatedAt,
   user,
   reviews,
+  height,
+  width,
 }) {
   return (
-    <div className={styles.container}>
+    <div style={{ width: width, height: height }} className={styles.container}>
       <img className={styles.image} src={imageUrl} alt={itemName} />
       <div className={styles.descriptionWrapper}>
-        <h3 className={styles.title}>{itemName.toUpperCase()}</h3>
+        <h3 className={styles.title}>{itemName?.toUpperCase()}</h3>
         <h4 className={styles.price}>
-          {currency === "pounds" && "£ "} {price}
+          {currency === "GBP" ? "£ " : "PKR "} {parseFloat(price).toFixed(2)}
         </h4>
       </div>
     </div>

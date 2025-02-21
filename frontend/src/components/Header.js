@@ -66,21 +66,23 @@ const Header = () => {
             <div className='dropdown'>
               <button
                 className='dropdown-toggle'
-                onClick={() => setAdminOpen(!adminOpen)}>
+                onClick={() => setAdminOpen((prev) => !prev)}>
                 ADMIN
               </button>
-              <div className={`dropdown-menu ${adminOpen ? "open" : ""}`}>
-                <a href='/admin/userlist'>Users</a>
-                <a href='/admin/productlist'>Products</a>
-                <a href='/admin/orderlist'>Orders</a>
-                <a href='/admin/inventorylist'>Expenses</a>
-                <a href='/admin/receiptlist'>Receipts</a>
-                <a href='/admin/salarylist'>Salaries</a>
-                <a href='/admin/recipelist'>Recipes</a>
-                <a href='/admin/inventorylevellist'>Inventory Levels</a>
-                <a href='/admin/billlist'>Bill Payable / Receivable</a>
-                <a href='/admin/financialsummary'>Financial Summary</a>
-              </div>
+              {adminOpen && (
+                <div>
+                  <a href='/admin/userlist'>Users</a>
+                  <a href='/admin/productlist'>Products</a>
+                  <a href='/admin/orderlist'>Orders</a>
+                  <a href='/admin/inventorylist'>Expenses</a>
+                  <a href='/admin/receiptlist'>Receipts</a>
+                  <a href='/admin/salarylist'>Salaries</a>
+                  <a href='/admin/recipelist'>Recipes</a>
+                  <a href='/admin/inventorylevellist'>Inventory Levels</a>
+                  <a href='/admin/billlist'>Bill Payable / Receivable</a>
+                  <a href='/admin/financialsummary'>Financial Summary</a>
+                </div>
+              )}
             </div>
           )}
 

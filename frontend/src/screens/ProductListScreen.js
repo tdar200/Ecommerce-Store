@@ -67,14 +67,15 @@ const ProductListScreen = ({ history, match }) => {
   };
 
   const createProductHandler = () => {
-    dispatch(createProduct());
+    // dispatch(createProduct());
+    history.push(`/admin/product/create`);
   };
 
   return (
     <>
       <Row className='align-items-center'>
         <Col>
-          <h1>Products</h1>
+          <h1>Products List</h1>
         </Col>
         <Col className='text-right'>
           <Button className='my-3' onClick={createProductHandler}>
@@ -104,46 +105,43 @@ const ProductListScreen = ({ history, match }) => {
               </tr>
             </thead>
             <>
-            {products.map((product) => {
-              return (
-                <tbody key={product._id}>
-                  {product.variants.map((item) => {
-           
-                    return (
-                      <tr key={item.variant_id}>
-                        <td>{item.variant_id}</td>
-                        <td>{product.item_name}</td>
-                        <td>
-                          {product.option1_name !== "size" ||
-                          product.option1_name !== null
-                            ? item.option1_value
-                            : product.item_name}
-                        </td>
-                        <td>{item.option2_value}</td>
-                        <td>Rs.{item.default_price}</td>
-                        {/* <td>{product.category}</td> */}
-                        <td>
-                          <LinkContainer
-                            to={`/admin/product/${product._id}/edit`}
-                          >
-                            <Button variant='light' className='btn-sm'>
-                              <i className='fas fa-edit'></i>
+              {products.map((product) => {
+                return (
+                  <tbody key={product._id}>
+                    {product.variants.map((item) => {
+                      return (
+                        <tr key={item.variant_id}>
+                          <td>{item.variant_id}</td>
+                          <td>{product.item_name}</td>
+                          <td>
+                            {product.option1_name !== "size" ||
+                            product.option1_name !== null
+                              ? item.option1_value
+                              : product.item_name}
+                          </td>
+                          <td>{item.option2_value}</td>
+                          <td>Rs.{item.default_price}</td>
+                          {/* <td>{product.category}</td> */}
+                          <td>
+                            <LinkContainer
+                              to={`/admin/product/${product._id}/edit`}>
+                              <Button variant='light' className='btn-sm'>
+                                <i className='fas fa-edit'></i>
+                              </Button>
+                            </LinkContainer>
+                            <Button
+                              variant='danger'
+                              className='btn-sm'
+                              onClick={() => deleteHandler(product._id)}>
+                              <i className='fas fa-trash'></i>
                             </Button>
-                          </LinkContainer>
-                          <Button
-                            variant='danger'
-                            className='btn-sm'
-                            onClick={() => deleteHandler(product._id)}
-                          >
-                            <i className='fas fa-trash'></i>
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              );
-            })}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                );
+              })}
             </>
           </Table>
           {/* <Paginate pages={pages} page={page} isAdmin={true} /> */}

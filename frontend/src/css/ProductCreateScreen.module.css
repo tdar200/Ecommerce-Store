@@ -1,0 +1,22 @@
+.container {
+    padding: 1rem;
+}
+
+.formContainer {
+    display: flex;
+}
+
+.formWrapper {
+    flex: 1;
+}
+
+.previewWrapper {
+    flex: 1;
+    margin: 1rem;
+}
+
+.profitWrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+}

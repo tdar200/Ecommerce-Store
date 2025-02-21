@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "server": "kill-port 6000 && nodemon backend/server.js",
+    "server": "kill-port 6001 && nodemon backend/server.js",
     "client": "kill-port 3000 && npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
@@ -26,6 +26,7 @@
     "jsonwebtoken": "^8.5.1",
     "kill-port": "^2.0.1",
     "moment": "^2.29.1",
+    "mongodb": "4.1",
     "mongoose": "^5.13.7",
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
