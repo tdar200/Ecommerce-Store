@@ -14,6 +14,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
+import dayjs from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import styles from "../css/ProductCreateScreen.module.css";
 
@@ -47,6 +51,9 @@ const ProductCreateScreen = ({ match, history }) => {
   const [description, setDescription] = useState("");
   const [gender, setGender] = useState(GENDER_LIST[0]);
   const [currency, setCurrency] = useState(CURRENCY_LIST[0]);
+  const [estimatedDelivery, setEstimatedDelivery] = useState(dayjs(new Date()));
+
+  console.log({ estimatedDelivery });
 
   const cardItems = {
     itemName: name,
@@ -238,7 +245,7 @@ const ProductCreateScreen = ({ match, history }) => {
                 <Select
                   labelId='color-dropdown'
                   id='color-select'
-                  value={color}
+                  value={color?.name}
                   label='Color'
                   onChange={(event) => setColor(event.target.value)}>
                   {COLOR_LIST.map((color, idx) => (
@@ -248,6 +255,14 @@ const ProductCreateScreen = ({ match, history }) => {
                   ))}
                 </Select>
               </FormControl>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label='Estimated Delivery Date'
+                  value={estimatedDelivery}
+                  onChange={(newValue) => setEstimatedDelivery(newValue)}
+                />
+              </LocalizationProvider>
 
               <Form.Group controlId='image'>
                 <Form.Label>Image</Form.Label>

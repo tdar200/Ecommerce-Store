@@ -55,6 +55,26 @@ const categorySchema = mongoose.Schema(
   { timestamps: true }
 );
 
+const deliverySchema = mongoose.Schema({
+  deliveryAddress: {
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    postalCode: { type: String, required: true },
+    country: { type: String, required: true },
+  },
+  deliveryStatus: {
+    type: String,
+    enum: ["pending", "dispatched", "in transit", "delivered", "canceled"],
+    default: "pending",
+  },
+  courier: { type: String },
+  trackingNumber: { type: String },
+  estimatedDeliveryDate: { type: Date },
+  deliveredAt: { type: Date },
+  createdAt: { type: Date, default: Date.now },
+});
+
 const productSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -121,6 +141,7 @@ const productSchema = mongoose.Schema({
   },
   reviews: [reviewSchema],
   category: [categorySchema],
+  delivery: [deliverySchema],
 });
 
 const Product = mongoose.model("Product", productSchema);
