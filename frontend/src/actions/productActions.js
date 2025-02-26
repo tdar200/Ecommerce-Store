@@ -26,6 +26,7 @@ import {
   PRODUCT_FILTERED_FAIL,
 } from "../constants/productConstants";
 import { logout } from "./userActions";
+import omit from "lodash/omit";
 
 export const listProducts =
   (keyword = "", pageNumber = "") =>
@@ -130,7 +131,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
   }
 };
 
-export const createProduct = () => async (dispatch, getState) => {
+export const createProduct = (product) => async (dispatch, getState) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REQUEST,
@@ -146,7 +147,30 @@ export const createProduct = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/products`, {}, config);
+    const newProduct = {
+      user: userInfo._id,
+      item_name: product.name,
+      purchase_price: product.purchasePrice,
+      selling_price: product.sellingPrice,
+      image_url: product.image,
+      qunatity: product.countInStock,
+      reviews: {},
+      category: { name: product.category },
+      delivery: { estimatedDeliveryDate: product.estimatedDelivery },
+      ...product,
+    };
+
+    const filteredProduct = omit(newProduct, [
+      "purchasePrice",
+      "sellingPrice",
+      "image",
+      "countInStock",
+      "category",
+      "estimatedDelivery",
+      "name",
+    ]);
+
+    const { data } = await axios.post(`/api/products`, filteredProduct, config);
 
     dispatch({
       type: PRODUCT_CREATE_SUCCESS,

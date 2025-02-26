@@ -3,7 +3,11 @@ import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listProductDetails, updateProduct } from "../actions/productActions";
+import {
+  listProductDetails,
+  updateProduct,
+  createProduct,
+} from "../actions/productActions";
 import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
 
 import Card from "../components/Card";
@@ -33,6 +37,8 @@ const CATEGORY_LIST = [
   "ELECTRONICS",
 ];
 
+const BRAND_LIST = ["LEVI"];
+
 const ProductCreateScreen = ({ match, history }) => {
   const paramsArr = history.location.pathname.split("/");
   const lastParam = paramsArr[paramsArr.length - 1];
@@ -52,8 +58,6 @@ const ProductCreateScreen = ({ match, history }) => {
   const [gender, setGender] = useState(GENDER_LIST[0]);
   const [currency, setCurrency] = useState(CURRENCY_LIST[0]);
   const [estimatedDelivery, setEstimatedDelivery] = useState(dayjs(new Date()));
-
-  console.log({ estimatedDelivery });
 
   const cardItems = {
     itemName: name,
@@ -105,18 +109,42 @@ const ProductCreateScreen = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      updateProduct({
-        _id: productId,
-        name,
-        sellingPrice,
-        image,
-        brand,
-        category,
-        description,
-        countInStock,
-      })
-    );
+
+    console.log({
+      name,
+      sellingPrice,
+      purchasePrice,
+      image,
+      brand,
+      size,
+      category,
+      countInStock,
+      color,
+      description,
+      gender,
+      currency,
+      estimatedDelivery,
+    });
+
+    const payload = {
+      name,
+      sellingPrice,
+      purchasePrice,
+      image,
+      brand,
+      size,
+      category,
+      countInStock,
+      color,
+      description,
+      gender: gender.toLowerCase(),
+      currency,
+      estimatedDelivery,
+    };
+
+    isCreate
+      ? dispatch(createProduct(payload))
+      : dispatch(updateProduct(payload));
   };
 
   const profit = sellingPrice - purchasePrice;
@@ -144,7 +172,9 @@ const ProductCreateScreen = ({ match, history }) => {
                   type='text'
                   placeholder='Enter item name'
                   value={name}
-                  onChange={(e) => setName(e.target.value)}></Form.Control>
+                  onChange={(e) =>
+                    setName(e.target.value.toUpperCase())
+                  }></Form.Control>
               </Form.Group>
 
               <FormControl sx={{ width: 300 }}>
@@ -210,7 +240,6 @@ const ProductCreateScreen = ({ match, history }) => {
                   startAdornment={
                     <InputAdornment position='start'>{currency}</InputAdornment>
                   }
-                  type='number'
                   value={sellingPrice}
                   label='Selling Price'
                   onChange={(e) => {
@@ -268,10 +297,12 @@ const ProductCreateScreen = ({ match, history }) => {
                 <Form.Label>Image</Form.Label>
                 <Form.Control
                   type='text'
-                  placeholder='Enter image url'
+                  placeholder='Enter Image URL'
                   value={image}
-                  onChange={(e) => setImage(e.target.value)}></Form.Control>
+                  onChange={(e) => setImage(e.target.value)}
+                />
               </Form.Group>
+
               <Form.Group controlId='brand'>
                 <Form.Label>Brand</Form.Label>
                 <Form.Control
@@ -280,34 +311,22 @@ const ProductCreateScreen = ({ match, history }) => {
                   value={brand}
                   onChange={(e) => setBrand(e.target.value)}></Form.Control>
               </Form.Group>
+
               <Form.Group controlId='countInStock'>
                 <Form.Label>Count In Stock</Form.Label>
                 <Form.Control
-                  type='number'
                   placeholder='Enter countInStock'
                   value={countInStock}
-                  onChange={(e) =>
-                    setCountInStock(e.target.value)
-                  }></Form.Control>
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value > 0) {
+                      setCountInStock(Number(e.target.value));
+                    } else {
+                      setCountInStock(0);
+                    }
+                  }}></Form.Control>
               </Form.Group>
-              <Form.Group controlId='category'>
-                <Form.Label>Category</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Enter category'
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}></Form.Control>
-              </Form.Group>
-              <Form.Group controlId='description'>
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Enter description'
-                  value={description}
-                  onChange={(e) =>
-                    setDescription(e.target.value)
-                  }></Form.Control>
-              </Form.Group>
+
               <FormControl sx={{ width: 300 }}>
                 <InputLabel id='gender-dropdown'>Gender</InputLabel>
                 <Select
@@ -323,16 +342,28 @@ const ProductCreateScreen = ({ match, history }) => {
                   ))}
                 </Select>
               </FormControl>
+
+              <Form.Group controlId='description'>
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter description'
+                  value={description}
+                  onChange={(e) =>
+                    setDescription(e.target.value)
+                  }></Form.Control>
+              </Form.Group>
+
               <button type='submit'>{isCreate ? "Create" : "Update"}</button>
             </form>
           </div>
           <div className={styles.previewWrapper}>
-            <Card {...cardItems} height={"60vh"} width={"50vh"} />
+            <Card {...cardItems} height={"80vh"} width={"50vh"} />
             <div className={styles.profitWrapper}>
               <span>
                 Profit : {currency} {Number(profit).toFixed(2)}{" "}
               </span>
-              <span>Margin : {margin} %</span>
+              <span>Margin : {isNaN(margin) ? 0 : margin} %</span>
             </div>
           </div>
         </div>

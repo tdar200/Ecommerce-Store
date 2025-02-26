@@ -4,19 +4,16 @@ const reviewSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
     },
     rating: {
       type: Number,
-      required: true,
     },
     comment: {
       type: String,
-      required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+
       ref: "User",
     },
   },
@@ -24,6 +21,15 @@ const reviewSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+const colorSchema = mongoose.Schema({
+  name: {
+    type: String,
+  },
+  value: {
+    type: String,
+  },
+});
 
 const categorySchema = mongoose.Schema(
   {
@@ -57,11 +63,11 @@ const categorySchema = mongoose.Schema(
 
 const deliverySchema = mongoose.Schema({
   deliveryAddress: {
-    street: { type: String, required: true },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
-    postalCode: { type: String, required: true },
-    country: { type: String, required: true },
+    street: { type: String },
+    city: { type: String },
+    state: { type: String },
+    postalCode: { type: String },
+    country: { type: String },
   },
   deliveryStatus: {
     type: String,
@@ -85,24 +91,12 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  image_url: {
-    type: String,
-  },
   description: {
     type: String,
   },
   rating: {
     type: Number,
     default: 0,
-  },
-  category_id: {
-    type: String,
-  },
-  option1_name: {
-    type: String,
-  },
-  option2_name: {
-    type: String,
   },
   quantity: {
     type: Number,
@@ -112,9 +106,7 @@ const productSchema = mongoose.Schema({
     required: true,
     enum: ["male", "female", "unisex"],
   },
-  color: {
-    type: String,
-  },
+
   purchase_price: {
     type: Number,
     required: true,
@@ -139,6 +131,7 @@ const productSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  color: [colorSchema],
   reviews: [reviewSchema],
   category: [categorySchema],
   delivery: [deliverySchema],

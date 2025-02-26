@@ -162,8 +162,6 @@ const ProductsScreen = () => {
   const products = get(currentPage, "items", []);
   const title = get(currentPage, "title", "");
 
-  console.log({ currentPage, products });
-
   return (
     <div>
       <Helmet>

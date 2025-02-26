@@ -8,8 +8,6 @@ const admin = require("../middleware/authMiddleware");
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-
-  
     const pageSize = 10;
     const page = req.query.pageNumber || 1;
     const keyword = req.query.keyword
@@ -21,12 +19,8 @@ router.get(
         }
       : {};
 
-    // console.log(req);
-
     const count = await Product.countDocuments({ ...keyword });
     const products = await Product.find({ ...keyword });
-    // .limit(pageSize)
-    // .skip(pageSize * (page - 1));
     res.json({ products, page, pages: Math.ceil(count / pageSize) });
   })
 );
@@ -110,25 +104,26 @@ router.get(
 router.get(
   "/variants",
   asyncHandler(async (req, res) => {
-
-    const item = req.query.name
+    const item = req.query.name;
 
     const products = await Product.aggregate([
       {
-        '$unwind': {
-          'path': '$variants'
-        }
-      }, {
-        '$match': {
-          '$or': [
+        $unwind: {
+          path: "$variants",
+        },
+      },
+      {
+        $match: {
+          $or: [
             {
-              'variants.option1_value': `${item}`
-            }, {
-              'item_name': `${item}`
-            }
-          ]
-        }
-      }
+              "variants.option1_value": `${item}`,
+            },
+            {
+              item_name: `${item}`,
+            },
+          ],
+        },
+      },
     ]);
     res.json(products);
   })
@@ -141,23 +136,15 @@ router.route("/").post(
   protect,
   admin,
   asyncHandler(async (req, res) => {
-    const product = new Product({
-      user: req.user._id,
-      item_name: "Sample name",
-      image_url: "Sample name",
-      description: "Sample name",
-      id: "Sample name",
-      category_id: "Sample name",
-      option1_name: "Sample name",
-      option2_name: "Sample name",
-      variants: [],
-      created_at: "Sample name",
-      updated_at: "Sample name",
-      sold_by_weight: "Sample name",
-    });
+    try {
+      console.log({ body: req.body });
+      const product = new Product(req.body);
 
-    const createdProduct = await product.save();
-    res.status(201).json(createdProduct);
+      const createdProduct = await product.save();
+      res.status(201).json(createdProduct);
+    } catch (err) {
+      console.error(err);
+    }
   })
 );
 
@@ -165,7 +152,6 @@ router.get(
   "/:id",
   asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
-    //   const product = products.find((p) => p.id === req.params.id);
     if (product) {
       res.json(product);
     } else {
