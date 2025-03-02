@@ -1,72 +1,39 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+
+import styles from "../css/Footer.module.css";
 
 const Footer = () => {
   return (
-    <footer
-      style={{
-        display: "grid",
-        backgroundColor: "floralwhite",
-        alignContent: "center",
-      }}>
-      <Container>
-        <Row>
-          <Col
+    <footer className={styles.container}>
+      <div className={styles.footerWrapper}>
+        <h4 className={styles.footerTitle}>
+          © BACKYARD STORE ALL RIGHTS RESERVED
+        </h4>
+        <div className={styles.buttonContainer}>
+          <button
             style={{
-              fontFamily: "Barlow Condensed,sans-serif",
-              fontWeight: "500",
-              marginBottom: "20px",
+              backgroundColor: "#4267B2",
             }}
-            className='text-center py-3'>
-            © BACKYARD BBQ RESTAURANT ALL RIGHTS RESERVED
-          </Col>
-          <Col className='text-center py-3'>
-            <button
-              style={{
-                backgroundColor: "#4267B2",
-                marginInline: "10px",
-                alignContent: "center",
-                display: "inline-flex",
-                width: "250px",
-                justifyContent: "center",
-                letterSpacing: "1px",
-                padding: "10px",
-                margin: "0.5rem",
-              }}
-              onClick={() =>
-                window.open("https://www.facebook.com/Backyardbbqrestaurant")
-              }
-              className='social-media'>
-              <i
-                style={{ fontSize: "1.73em", marginRight: "9px" }}
-                className='fab fa-facebook-square'></i>{" "}
-              LIKE US ON FACEBOOK
-            </button>
-
-            <button
-              style={{
-                backgroundColor: "#F58529",
-                marginInline: "10px",
-                alignContent: "center",
-                display: "inline-flex",
-                width: "250px",
-                justifyContent: "center",
-                letterSpacing: "1px",
-                padding: "10px",
-                margin: "0.5rem",
-              }}
-              onClick={() =>
-                window.open("https://www.instagram.com/backyard.bbq.restaurant")
-              }
-              className='social-media'>
-              <i
-                style={{ fontSize: "1.73em", marginRight: "9px" }}
-                className='fab fa-instagram'></i>{" "}
-              FOLLOW US ON INSTAGRAM
-            </button>
-          </Col>
-        </Row>
-      </Container>
+            onClick={() =>
+              window.open("https://www.facebook.com/Backyardbbqrestaurant")
+            }
+            className={styles.buttonWrapper}>
+            <i className={`fab fa-facebook-square ${styles.iconWrapper}`}></i>{" "}
+            LIKE US ON FACEBOOK
+          </button>
+          <button
+            style={{
+              backgroundColor: "#F58529",
+            }}
+            onClick={() =>
+              window.open("https://www.instagram.com/backyard.bbq.restaurant")
+            }
+            className={styles.buttonWrapper}>
+            <i className={`fab fa-instagram ${styles.iconWrapper}`}></i> FOLLOW
+            US ON INSTAGRAM
+          </button>
+        </div>
+      </div>
     </footer>
   );
 };

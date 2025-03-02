@@ -4,7 +4,6 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import Paginate from "../components/Paginate";
 import {
   listProducts,
   deleteProduct,
@@ -67,7 +66,6 @@ const ProductListScreen = ({ history, match }) => {
   };
 
   const createProductHandler = () => {
-    // dispatch(createProduct());
     history.push(`/admin/product/create`);
   };
 
@@ -101,46 +99,12 @@ const ProductListScreen = ({ history, match }) => {
                 <th>OPTION1_VALUE</th>
                 <th>SIZE</th>
                 <th>PRICE</th>
-                {/* <th>BRAND</th> */}
               </tr>
             </thead>
             <>
-              {products.map((product) => {
-                return (
-                  <tbody key={product._id}>
-                    {product.variants.map((item) => {
-                      return (
-                        <tr key={item.variant_id}>
-                          <td>{item.variant_id}</td>
-                          <td>{product.item_name}</td>
-                          <td>
-                            {product.option1_name !== "size" ||
-                            product.option1_name !== null
-                              ? item.option1_value
-                              : product.item_name}
-                          </td>
-                          <td>{item.option2_value}</td>
-                          <td>Rs.{item.default_price}</td>
-                          {/* <td>{product.category}</td> */}
-                          <td>
-                            <LinkContainer
-                              to={`/admin/product/${product._id}/edit`}>
-                              <Button variant='light' className='btn-sm'>
-                                <i className='fas fa-edit'></i>
-                              </Button>
-                            </LinkContainer>
-                            <Button
-                              variant='danger'
-                              className='btn-sm'
-                              onClick={() => deleteHandler(product._id)}>
-                              <i className='fas fa-trash'></i>
-                            </Button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                );
+              {products?.map((product) => {
+                console.log({ product });
+                return <div key={product._id}> </div>;
               })}
             </>
           </Table>

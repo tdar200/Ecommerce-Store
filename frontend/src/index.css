@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
+
+body, html {
+  font-family: monospace;
+}
+
 main {
   min-height: 80vh;
 }
+
 
 h1 {
   /* padding: 1rem 0; */

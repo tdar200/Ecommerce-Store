@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -12,12 +11,14 @@ import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
 
 import Card from "../components/Card";
 
+import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
+
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -25,7 +26,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import styles from "../css/ProductCreateScreen.module.css";
 
-const GENDER_LIST = ["MALE", "FEMALE", "UNISEX"];
+const GENDER_LIST = ["UNISEX", "MALE", "FEMALE"];
 const SIZE_LIST = ["Extra Small", "Small", "Medium", "Large", "Extra Large"];
 const CURRENCY_LIST = ["GBP", "PKR"];
 const COLOR_LIST = [{ name: "BLACK", value: "#000000" }];
@@ -110,22 +111,6 @@ const ProductCreateScreen = ({ match, history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    console.log({
-      name,
-      sellingPrice,
-      purchasePrice,
-      image,
-      brand,
-      size,
-      category,
-      countInStock,
-      color,
-      description,
-      gender,
-      currency,
-      estimatedDelivery,
-    });
-
     const payload = {
       name,
       sellingPrice,
@@ -152,8 +137,9 @@ const ProductCreateScreen = ({ match, history }) => {
 
   return (
     <div className={styles.container}>
-      <a href='/admin/productlist'>Go Back</a>
-      <h1>{isCreate ? "Create Product" : "Edit Product"}</h1>
+      <h1 className={styles.formTitle}>
+        {isCreate ? "Create Product" : "Edit Product"}
+      </h1>
       {loadingUpdate && !isCreate && <Loader />}
       {errorUpdate && !isCreate && (
         <Message variant='danger'>{errorUpdate}</Message>
@@ -165,196 +151,234 @@ const ProductCreateScreen = ({ match, history }) => {
       ) : (
         <div className={styles.formContainer}>
           <div className={styles.formWrapper}>
-            <form onSubmit={submitHandler}>
-              <Form.Group controlId='item-name'>
-                <Form.Label>Item Name</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Enter item name'
-                  value={name}
-                  onChange={(e) =>
-                    setName(e.target.value.toUpperCase())
-                  }></Form.Control>
-              </Form.Group>
-
-              <FormControl sx={{ width: 300 }}>
-                <InputLabel id='category-dropdown'>Category</InputLabel>
-                <Select
-                  labelId='category-dropdown'
-                  id='category-select'
-                  value={category}
-                  label='Category'
-                  onChange={(event) => setCategory(event.target.value)}>
-                  {CATEGORY_LIST.map((category, idx) => (
-                    <MenuItem key={category - idx} value={category}>
-                      {category}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <FormControl sx={{ width: 300 }}>
-                <InputLabel id='currency-dropdown'>Currency</InputLabel>
-                <Select
-                  labelId='currency-dropdown'
-                  id='currency-select'
-                  value={currency}
-                  label='Currency'
-                  onChange={(event) => setCurrency(event.target.value)}>
-                  {CURRENCY_LIST.map((currency, idx) => (
-                    <MenuItem key={currency - idx} value={currency}>
-                      {currency}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+            <form className={styles.formComponent} onSubmit={submitHandler}>
+              <div className={styles.inputWrapper}>
+                <FormControl fullWidth>
+                  <InputLabel id='outlined-input-item-name'>
+                    Item Name
+                  </InputLabel>
+                  <OutlinedInput
+                    required
+                    id='outlined-input-item-item'
+                    label='Item Name'
+                    value={name}
+                    onChange={(e) => setName(e.target.value.toUpperCase())}
+                  />
+                </FormControl>
+              </div>
 
               <FormControl fullWidth>
-                <InputLabel htmlFor='outlined-adornment-purchase-price'>
-                  Purchase Price
-                </InputLabel>
+                <InputLabel id='outlined-input-image-url'>Image URL</InputLabel>
                 <OutlinedInput
-                  id='outlined-adornment-purchase-price'
-                  startAdornment={
-                    <InputAdornment position='start'>{currency}</InputAdornment>
-                  }
-                  label='Purchase Price'
-                  value={purchasePrice}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value > 0) {
-                      setPurchasePrice(Number(e.target.value));
-                    } else {
-                      setPurchasePrice(0);
-                    }
-                  }}
-                />
-              </FormControl>
-
-              <FormControl fullWidth>
-                <InputLabel htmlFor='outlined-adornment-selling-price'>
-                  Selling Price
-                </InputLabel>
-                <OutlinedInput
-                  id='outlined-adornment-selling-price'
-                  startAdornment={
-                    <InputAdornment position='start'>{currency}</InputAdornment>
-                  }
-                  value={sellingPrice}
-                  label='Selling Price'
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value > 0) {
-                      setSellingPrice(Number(e.target.value));
-                    } else {
-                      setSellingPrice(0);
-                    }
-                  }}
-                />
-              </FormControl>
-
-              <FormControl sx={{ width: 300 }}>
-                <InputLabel id='size-dropdown'>Size</InputLabel>
-                <Select
-                  labelId='size-dropdown'
-                  id='size-select'
-                  value={size}
-                  label='Size'
-                  onChange={(event) => setSize(event.target.value)}>
-                  {SIZE_LIST.map((size, idx) => (
-                    <MenuItem key={size - idx} value={size}>
-                      {size}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <FormControl sx={{ width: 300 }}>
-                <InputLabel id='color-dropdown'>Color</InputLabel>
-                <Select
-                  labelId='color-dropdown'
-                  id='color-select'
-                  value={color?.name}
-                  label='Color'
-                  onChange={(event) => setColor(event.target.value)}>
-                  {COLOR_LIST.map((color, idx) => (
-                    <MenuItem key={color?.name - idx} value={color?.name}>
-                      {color?.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label='Estimated Delivery Date'
-                  value={estimatedDelivery}
-                  onChange={(newValue) => setEstimatedDelivery(newValue)}
-                />
-              </LocalizationProvider>
-
-              <Form.Group controlId='image'>
-                <Form.Label>Image</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Enter Image URL'
+                  required
+                  className={styles.inputWrapper}
+                  id='outlined-input-image-url'
+                  label='Image URL'
                   value={image}
                   onChange={(e) => setImage(e.target.value)}
                 />
-              </Form.Group>
-
-              <Form.Group controlId='brand'>
-                <Form.Label>Brand</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Enter brand'
-                  value={brand}
-                  onChange={(e) => setBrand(e.target.value)}></Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId='countInStock'>
-                <Form.Label>Count In Stock</Form.Label>
-                <Form.Control
-                  placeholder='Enter countInStock'
-                  value={countInStock}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (value > 0) {
-                      setCountInStock(Number(e.target.value));
-                    } else {
-                      setCountInStock(0);
-                    }
-                  }}></Form.Control>
-              </Form.Group>
-
-              <FormControl sx={{ width: 300 }}>
-                <InputLabel id='gender-dropdown'>Gender</InputLabel>
-                <Select
-                  labelId='gender-dropdown'
-                  id='gender-select'
-                  value={gender}
-                  label='Gender'
-                  onChange={(event) => setGender(event.target.value)}>
-                  {GENDER_LIST.map((gender, idx) => (
-                    <MenuItem key={gender - idx} value={gender}>
-                      {gender}
-                    </MenuItem>
-                  ))}
-                </Select>
               </FormControl>
 
-              <Form.Group controlId='description'>
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  type='text'
-                  placeholder='Enter description'
-                  value={description}
-                  onChange={(e) =>
-                    setDescription(e.target.value)
-                  }></Form.Control>
-              </Form.Group>
+              <div className={styles.inputContainer}>
+                <FormControl sx={{ flexBasis: "47%" }}>
+                  <InputLabel id='category-dropdown'>Category</InputLabel>
+                  <Select
+                    required
+                    className={styles.inputWrapper}
+                    labelId='category-dropdown'
+                    id='category-select'
+                    value={category}
+                    label='Category'
+                    onChange={(event) => setCategory(event.target.value)}>
+                    {CATEGORY_LIST.map((category, idx) => (
+                      <MenuItem key={category - idx} value={category}>
+                        {category}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
-              <button type='submit'>{isCreate ? "Create" : "Update"}</button>
+                <FormControl sx={{ flexBasis: "47%" }}>
+                  <InputLabel id='currency-dropdown'>Currency</InputLabel>
+                  <Select
+                    required
+                    className={styles.inputWrapper}
+                    labelId='currency-dropdown'
+                    id='currency-select'
+                    value={currency}
+                    label='Currency'
+                    onChange={(event) => setCurrency(event.target.value)}>
+                    {CURRENCY_LIST.map((currency, idx) => (
+                      <MenuItem key={currency - idx} value={currency}>
+                        {currency}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl sx={{ flexBasis: "47%" }}>
+                  <InputLabel id='outlined-adornment-purchase-price'>
+                    Purchase Price
+                  </InputLabel>
+                  <OutlinedInput
+                    className={styles.inputWrapper}
+                    id='outlined-adornment-purchase-price'
+                    startAdornment={
+                      <InputAdornment position='start'>
+                        {currency}
+                      </InputAdornment>
+                    }
+                    label='Purchase Price'
+                    value={purchasePrice}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value > 0) {
+                        setPurchasePrice(Number(e.target.value));
+                      } else {
+                        setPurchasePrice(0);
+                      }
+                    }}
+                  />
+                </FormControl>
+
+                <FormControl sx={{ flexBasis: "47%" }}>
+                  <InputLabel htmlFor='outlined-adornment-selling-price'>
+                    Selling Price
+                  </InputLabel>
+                  <OutlinedInput
+                    required
+                    className={styles.inputWrapper}
+                    id='outlined-adornment-selling-price'
+                    startAdornment={
+                      <InputAdornment position='start'>
+                        {currency}
+                      </InputAdornment>
+                    }
+                    value={sellingPrice}
+                    label='Selling Price'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value > 0) {
+                        setSellingPrice(Number(e.target.value));
+                      } else {
+                        setSellingPrice(0);
+                      }
+                    }}
+                  />
+                </FormControl>
+
+                <FormControl sx={{ flexBasis: "47%" }}>
+                  <InputLabel id='size-dropdown'>Size</InputLabel>
+                  <Select
+                    className={styles.inputWrapper}
+                    labelId='size-dropdown'
+                    id='size-select'
+                    value={size}
+                    label='Size'
+                    onChange={(event) => setSize(event.target.value)}>
+                    {SIZE_LIST.map((size, idx) => (
+                      <MenuItem key={size - idx} value={size}>
+                        {size}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl sx={{ flexBasis: "47%" }}>
+                  <InputLabel id='color-dropdown'>Color</InputLabel>
+                  <Select
+                    className={styles.inputWrapper}
+                    labelId='color-dropdown'
+                    id='color-select'
+                    value={color?.name}
+                    label='Color'
+                    onChange={(event) => setColor(event.target.value)}>
+                    {COLOR_LIST.map((color, idx) => (
+                      <MenuItem key={color?.name - idx} value={color?.name}>
+                        {color?.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl sx={{ flexBasis: "47%", marginBottom: "1rem" }}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label='Estimated Delivery Date'
+                      value={estimatedDelivery}
+                      onChange={(newValue) => setEstimatedDelivery(newValue)}
+                    />
+                  </LocalizationProvider>
+                </FormControl>
+
+                <FormControl sx={{ flexBasis: "47%" }}>
+                  <InputLabel id='outlined-input-brand'>Brand</InputLabel>
+                  <OutlinedInput
+                    className={styles.inputWrapper}
+                    id='outlined-input-brand'
+                    label='Brand'
+                    value={brand}
+                    onChange={(e) => setBrand(e.target.value)}
+                  />
+                </FormControl>
+
+                <FormControl sx={{ flexBasis: "47%" }}>
+                  <InputLabel id='outlined-input-stock-count'>
+                    Count In Stock
+                  </InputLabel>
+                  <OutlinedInput
+                    className={styles.inputWrapper}
+                    id='outlined-input-stock-count'
+                    label='Count In Stock'
+                    value={countInStock}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value > 0) {
+                        setCountInStock(Number(e.target.value));
+                      } else {
+                        setCountInStock(0);
+                      }
+                    }}
+                  />
+                </FormControl>
+
+                <FormControl sx={{ flexBasis: "47%" }}>
+                  <InputLabel id='gender-dropdown'>Gender</InputLabel>
+                  <Select
+                    className={styles.inputWrapper}
+                    labelId='gender-dropdown'
+                    id='gender-select'
+                    value={gender}
+                    label='Gender'
+                    onChange={(event) => setGender(event.target.value)}>
+                    {GENDER_LIST.map((gender, idx) => (
+                      <MenuItem key={gender - idx} value={gender}>
+                        {gender}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+
+              <FormControl fullWidth>
+                <InputLabel id='outlined-input-description'>
+                  Description
+                </InputLabel>
+                <OutlinedInput
+                  sx={{ marginBottom: "1rem" }}
+                  id='outlined-input-description'
+                  label='Description'
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  multiline
+                  maxRows={3}
+                  variant='standard'
+                />
+              </FormControl>
+
+              <button className={styles.buttonWrapper} type='submit'>
+                {isCreate ? "Create" : "Update"}
+              </button>
             </form>
           </div>
           <div className={styles.previewWrapper}>
