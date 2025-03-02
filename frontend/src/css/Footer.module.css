@@ -11,8 +11,9 @@
     align-items: center;
 }
 
-.footerTitler {
+.footerTitle {
     text-align: center;
+    font-size: 1rem;
 }
 
 .buttonContainer {
