@@ -10,10 +10,11 @@ import logo from "../../src/BACKYARD-BBQ.svg";
 import PersonIcon from "@mui/icons-material/Person";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
+import { useHistory } from "react-router-dom";
+
 import styles from "../css/Header.module.css";
 
 import NavigationBar from "./NavigationBar";
-
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -26,23 +27,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-
-// {adminOpen && (
-//             <div>
-//               <a href='/admin/userlist'>Users</a>
-//               <a href='/admin/productlist'>Products</a>
-//               <a href='/admin/orderlist'>Orders</a>
-//               <a href='/admin/inventorylist'>Expenses</a>
-//               <a href='/admin/receiptlist'>Receipts</a>
-//               <a href='/admin/salarylist'>Salaries</a>
-//               <a href='/admin/recipelist'>Recipes</a>
-//               <a href='/admin/inventorylevellist'>Inventory Levels</a>
-//               <a href='/admin/billlist'>Bill Payable / Receivable</a>
-//               <a href='/admin/financialsummary'>Financial Summary</a>
-//             </div>
-//           )}
-
 const adminPages = [
   { title: "Users", link: "/admin/userlist" },
   { title: "Products", link: "/admin/productlist" },
@@ -57,7 +41,7 @@ const adminPages = [
 ];
 
 const pages = [
-  { title: "Products" },
+  { title: "Products", link: "/products" },
   { title: "Pricing" },
   { title: "Blog" },
   { title: "Hello" },
@@ -74,6 +58,8 @@ const Header = () => {
   const [adminOpen, setAdminOpen] = useState(false);
   const device = isMobileScreen();
 
+  const history = useHistory();
+
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -85,11 +71,17 @@ const Header = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (pageLink) => {
+    if (pageLink) {
+      history.push(pageLink);
+    }
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (pageLink) => {
+    if (pageLink) {
+      history.push(pageLink);
+    }
     setAnchorElUser(null);
   };
 
@@ -141,9 +133,11 @@ const Header = () => {
                 onClose={handleCloseNavMenu}
                 sx={{ display: { xs: "block", md: "none" } }}>
                 {pages.map((page) => {
-                  const { title } = page;
+                  const { title, link } = page;
                   return (
-                    <MenuItem key={title} onClick={handleCloseNavMenu}>
+                    <MenuItem
+                      key={title}
+                      onClick={() => handleCloseNavMenu(link)}>
                       <Typography sx={{ textAlign: "center" }}>
                         {title}
                       </Typography>
@@ -155,11 +149,11 @@ const Header = () => {
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page, idx) => {
-                const { title } = page;
+                const { title, link } = page;
                 return (
                   <Button
                     key={title - idx}
-                    onClick={handleCloseNavMenu}
+                    onClick={() => handleCloseNavMenu(link)}
                     sx={{ my: 2, color: "white", display: "block" }}>
                     {title}
                   </Button>
@@ -197,10 +191,10 @@ const Header = () => {
                 {(isAdmin ? adminPages : settings).map((setting) => {
                   const { title, link } = setting;
                   return (
-                    <MenuItem key={title} onClick={handleCloseUserMenu}>
-                      <a href={link} sx={{ textAlign: "center" }}>
-                        {title}
-                      </a>
+                    <MenuItem
+                      key={title}
+                      onClick={() => handleCloseUserMenu(link)}>
+                      {title}
                     </MenuItem>
                   );
                 })}

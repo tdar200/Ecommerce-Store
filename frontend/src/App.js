@@ -50,8 +50,6 @@ const App = () => {
               />
               <Route path='/search/:keyword' component={HomeScreen} exact />
               <Route path='/' component={HomeScreen} exact />
-
-              {/* <Route path="/" render={ ( props ) => ( props.location.pathname !== "/") && <Header /> }> */}
               <Route path='/products' component={ProductsScreen} />
               <Route path='/login' component={LoginScreen} />
               <Route path='/order/:id' component={OrderScreen} />

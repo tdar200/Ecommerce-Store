@@ -106,7 +106,6 @@ const productSchema = mongoose.Schema({
     required: true,
     enum: ["male", "female", "unisex"],
   },
-
   purchase_price: {
     type: Number,
     required: true,
