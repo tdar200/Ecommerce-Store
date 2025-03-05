@@ -10,18 +10,41 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Rating from "../components/Rating";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
-import { IndexLinkContainer } from "react-router-bootstrap";
+
+import styles from "../css/Product.module.css";
 
 const ProductScreen = ({ match, history }) => {
-  const [qty, setQty] = useState([]);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
   const [productList, setProductList] = useState({});
 
   const dispatch = useDispatch();
 
-  const productDetails = useSelector((state) => state.productDetails);
+  console.log({ dispatch });
+
+  const productDetails = useSelector((state) => {
+    return state.productDetails;
+  });
   const { error, loading, product } = productDetails;
+
+  const {
+    _id,
+    item_name,
+    selling_price,
+    currency,
+    description,
+    size,
+    stockQuantity,
+    color,
+    category,
+    image_url,
+    createdAt,
+    updatedAt,
+    user,
+    reviews,
+    height,
+    width,
+    brand,
+    gender,
+  } = product ?? {};
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
@@ -33,91 +56,48 @@ const ProductScreen = ({ match, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const productFind =
-    productList &&
-    product.variants &&
-    product.variants.filter(
-      (x) => x.option1_value === productList[x.option1_value]
-    );
-
-  // console.log(productFind)
-  // console.log(cartItems);
-  // console.log(product)
-  // console.log(qty);
-  // console.log(productList)
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
 
-    let obj = {};
+    // product?.variants &&
+    //   product.variants.map((items) => {
+    //     const pName = items.option1_value
+    //       ? items.option1_value
+    //       : product.item_name;
 
-    product.variants &&
-      product.variants.map((items) => {
-        const pName = items.option1_value
-          ? items.option1_value
-          : product.item_name;
+    //     obj[pName] = 1;
+    //   });
 
-        obj[pName] = 1;
-      });
+    // setProductList(() => ({ ...obj }));
 
-    setProductList(() => ({ ...obj }));
+    // if (successProductReview) {
+    //   setRating(0);
+    //   setComment("");
+    // }
 
-    if (successProductReview) {
-      setRating(0);
-      setComment("");
-    }
+    // if (successProductReview) {
+    //   dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+    // }
+  }, [match.params.id]);
 
-    if (productFind) {
-   
-      // console.log(list);
+  // useMemo(() => {
+  //   if (productList) {
+  //     let list = { ...productList };
+  //     product.variants &&
+  //       product.variants.map((items, index1) => {
+  //         cartItems.map((cart, index2) => {
+  //           if (cart.vid === items.variant_id) {
+  //             list[cart.option1_value] = cart.qty;
+  //           }
+  //         });
+  //       });
 
-      // product.variants &&
-      //   product.variants.map((items, index1) => {
-      //     cartItems.map((cart, index2) => {
-      //       if (cart.vid === items.variant_id) {
-      //         list[cart.option1_value] = cart.qty;
-      //       }
-      //     });
-      //   });
-
-      // setProductList(() => ({ ...list }));
-    }
-    if (successProductReview) {
-      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
-    }
-  }, [dispatch, match, product._id]);
-
-
-   useMemo(() => {
-
-    if(productList) {
-      let list = {...productList}
-      product.variants &&
-        product.variants.map((items, index1) => {
-          cartItems.map((cart, index2) => {
-            if (cart.vid === items.variant_id) {
-              list[cart.option1_value] = cart.qty;
-            }
-          });
-        });
-
-      setProductList(() => ({ ...list }));
-    }
-
-  }, [cartItems, product.variants])
-
-  // const submitHandler = (e) => {
-  //   e.preventDefault();
-  //   dispatch(
-  //     createProductReview(match.params.id, {
-  //       rating,
-  //       comment,
-  //     })
-  //   );
-  // };
+  //     setProductList(() => ({ ...list }));
+  //   }
+  // }, [cartItems, product.variants]);
 
   const decrement = (index) => {
     const list = { ...productList };
-
     if (list[index] > 1) {
       list[index] += -1;
       setProductList(list);
@@ -136,21 +116,57 @@ const ProductScreen = ({ match, history }) => {
     );
   };
 
+  console.log({ product });
+
   return (
-    <div style={{marginTop:"2rem"}}>
-      {/* <Link className='btn btn-light my-3' to='/products'>
-        GO BACK
-      </Link> */}
+    <div className={styles.container}>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <h1 style={{ textAlign: "center" }}>
+          <div
+            style={{ backgroundImage: `url(${image_url})` }}
+            className={styles.leftSection}></div>
+          <div className={styles.rightSection}>
+            <div className={styles.rightSectionWrapper}>
+              <div className={styles.productDescription}>
+                <h5 className={styles.gender}>{gender.toUpperCase()}</h5>
+                <h4 className={styles.title}>{item_name?.toUpperCase()}</h4>
+                <h4 className={styles.brand}>{brand?.toUpperCase()}</h4>
+                <h3 className={styles.price}>
+                  {currency === "gbp" ? "£" : "PKR"}
+                  {parseFloat(selling_price).toFixed(2)}
+                </h3>
+
+                {color[0]?.name && (
+                  <span className={styles.colorSection}>
+                    <h4 className={styles.colorTitle}>COLOUR:</h4>
+                    <h4 className={styles.colorName}>
+                      {color[0]?.name?.toLowerCase()}
+                    </h4>
+                  </span>
+                )}
+
+                {/* {size && ( */}
+                <span className={styles.sizeSection}>
+                  <h4 className={styles.sizeTitle}>SIZE:</h4>
+                  <h4 className={styles.sizeName}>{size?.toLowerCase()}</h4>
+                </span>
+                {/* )} */}
+              </div>
+              <button className={styles.buttonWrapper}>ADD TO BAG</button>
+              <h4 className={styles.freeShipping}>
+                Free Standard Delivery on all orders
+              </h4>
+            </div>
+          </div>
+
+          {/* <h1 style={{ textAlign: "center" }}>
             <strong>{product.item_name}</strong>
-          </h1>
-          <Row style={{ display: "flex", justifyContent: "center" }}>
+          </h1> */}
+          {/* <Row style={{ display: "flex", justifyContent: "center" }}>
             {product.variants.map((item, index) => {
               return (
                 <Col
@@ -259,63 +275,6 @@ const ProductScreen = ({ match, history }) => {
                 </Col>
               );
             })}
-          </Row>
-          {/* <Row>
-            <Col md={6}>
-              <h2>Reviews</h2>
-              {product.reviews.length === 0 && <Message>No Reviews</Message>}
-              <ListGroup variant='flush'>
-                {product.reviews.map((review) => (
-                  <ListGroup.Item key={review._id}>
-                    <strong>{review.name}</strong>
-                    <Rating value={review.rating}></Rating>
-                    <p>{review.createdAt.substring(0, 10)}</p>
-                    <p>{review.comment}</p>
-                  </ListGroup.Item>
-                ))}
-                <ListGroup.Item>
-                  <h2>Write a Customer Review</h2>
-                  {errorProductReview && (
-                    <Message variant='danger'>{errorProductReview}</Message>
-                  )}
-                  {userInfo ? (
-                    <Form onSubmit={submitHandler}>
-                      <Form.Group controlId='rating'>
-                        <Form.Label>Rating</Form.Label>
-                        <Form.Control
-                          as='select'
-                          value={rating}
-                          onChange={(e) => setRating(e.target.value)}
-                        >
-                          <option value=''>Select..</option>
-                          <option value='1'>Poor</option>
-                          <option value='2'>Fair</option>
-                          <option value='3'>Good</option>
-                          <option value='4'>Very Good</option>
-                          <option value='5'>Excellent</option>
-                        </Form.Control>
-                      </Form.Group>
-                      <Form.Group controlId='comment'>
-                        <Form.Label>Comment</Form.Label>
-                        <Form.Control
-                          as='textarea'
-                          row='3'
-                          value={comment}
-                          onChange={(e) => setComment(e.target.value)}
-                        ></Form.Control>
-                      </Form.Group>
-                      <Button type='submit' variant='primary'>
-                        Submit
-                      </Button>
-                    </Form>
-                  ) : (
-                    <Message>
-                      Please <Link to='/login'>sign in</Link> to write a review
-                    </Message>
-                  )}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
           </Row> */}
         </>
       )}

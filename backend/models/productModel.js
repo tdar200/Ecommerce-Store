@@ -1,86 +1,5 @@
 const mongoose = require("mongoose");
 
-const reviewSchema = mongoose.Schema(
-  {
-    name: {
-      type: String,
-    },
-    rating: {
-      type: Number,
-    },
-    comment: {
-      type: String,
-    },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-
-      ref: "User",
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-const colorSchema = mongoose.Schema({
-  name: {
-    type: String,
-  },
-  value: {
-    type: String,
-  },
-});
-
-const categorySchema = mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    },
-    description: {
-      type: String,
-    },
-    image_url: {
-      type: String,
-    },
-    is_active: {
-      type: Boolean,
-      default: true,
-    },
-    created_at: {
-      type: Date,
-      default: Date.now,
-    },
-    updated_at: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  { timestamps: true }
-);
-
-const deliverySchema = mongoose.Schema({
-  deliveryAddress: {
-    street: { type: String },
-    city: { type: String },
-    state: { type: String },
-    postalCode: { type: String },
-    country: { type: String },
-  },
-  deliveryStatus: {
-    type: String,
-    enum: ["pending", "dispatched", "in transit", "delivered", "canceled"],
-    default: "pending",
-  },
-  courier: { type: String },
-  trackingNumber: { type: String },
-  estimatedDeliveryDate: { type: Date },
-  deliveredAt: { type: Date },
-  createdAt: { type: Date, default: Date.now },
-});
-
 const productSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -93,6 +12,10 @@ const productSchema = mongoose.Schema({
   },
   description: {
     type: String,
+  },
+  currency: {
+    type: String,
+    enum: ["gbp", "pkr"],
   },
   rating: {
     type: Number,
@@ -130,10 +53,30 @@ const productSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  color: [colorSchema],
-  reviews: [reviewSchema],
-  category: [categorySchema],
-  delivery: [deliverySchema],
+  color: [{ name: { type: String }, value: { type: String } }],
+  category: {
+    type: String,
+    enum: [
+      "apparel",
+      "accessories",
+      "beauty",
+      "health & fitness",
+      "electronics",
+    ],
+  },
+  brand: {
+    type: String,
+    enum: ["levis"],
+  },
+  size: {
+    type: String,
+    enum: ["extra small", "small", "medium", "large", "extra large"],
+  },
+  delivery: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Delivery",
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);

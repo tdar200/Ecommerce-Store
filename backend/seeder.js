@@ -39,28 +39,30 @@ connectDB();
 
 const importData = async () => {
   try {
-    await Inventory.deleteMany();
+    // await Inventory.deleteMany();
 
-    await Receipt.deleteMany();
+    // await Receipt.deleteMany();
 
-    await InventoryLevel.deleteMany();
+    // await InventoryLevel.deleteMany();
 
-    const sample = items.map((item) => {
-      const { Item, Category, image, MonthlySalary } = item;
-      const date = new Date();  
+    // await Product.deleteMany();
 
-      return {
-        category: Category,
-        item: Item,
-        in_stock: 0,
-        updated_at: date,
-        vendor: "Grocery",
-        image: image ? image : "",
-        monthly_salary: MonthlySalary && MonthlySalary,
-      };
-    });
+    // const sample = items.map((item) => {
+    //   const { Item, Category, image, MonthlySalary } = item;
+    //   const date = new Date();
+
+    //   return {
+    //     category: Category,
+    //     item: Item,
+    //     in_stock: 0,
+    //     updated_at: date,
+    //     vendor: "Grocery",
+    //     image: image ? image : "",
+    //     monthly_salary: MonthlySalary && MonthlySalary,
+    //   };
+    // });
     // await Receipt.insertMany(receiptData);
-    await InventoryLevel.insertMany(sample);
+    // await InventoryLevel.insertMany(sample);
 
     console.log("InventoryLevels Imported!".green.inverse);
     process.exit();

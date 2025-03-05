@@ -18,7 +18,7 @@ const list = [
     heading: "This is the second slide",
     subHeading: "",
     imageURL:
-      "https://thebigsmoke.com.au/wp-content/uploads/happy-people-group-fb.jpg",
+      "https://kmd-assets.imgix.net/catalog/product/b/0/b0399_o4v_trl_tough_mens_pants_green_a.jpg?auto=compress%2Cformat&fit=cover&ar=100%3A100&ixlib=react-9.5.1-beta.1",
   },
   {
     id: 1,

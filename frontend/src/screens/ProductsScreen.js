@@ -12,147 +12,20 @@ import { useLocation } from "react-router-dom/cjs/react-router-dom";
 import get from "lodash/get";
 import styles from "../css/Products.module.css";
 
-const TITLE = "PRODUCTS";
+import { Title } from "../components/Typography";
+import { useHistory } from "react-router-dom";
 
-// const PAGE_TYPE = {
-//   bestSellers: {},
-//   newlyAdded: {},
-//   accessories: {},
-//   women: {},
-//   men: {},
-//   healthAndBeauty: {},
-//   products: {
-//     id: 1,
-//     title: "ALL PRODUCTS",
-//     items: [
-//       {
-//         _id: "61287a98d783f13644c57723",
-//         rating: 0,
-//         itemName: "gray pallette socks",
-//         size: "medium",
-//         stockQuantity: 1,
-//         price: "9.50",
-//         currency: "pounds",
-//         color: "white",
-//         categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
-//         imageUrl:
-//           "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
-//         option1Name: "sock",
-//         option2Name: null,
-//         createdAt: "2019-05-07T23:13:18.000Z",
-//         updatedAt: "2021-08-26T05:39:45.000Z",
-//         user: "61287a98d783f13644c5770c",
-//         reviews: [],
-//       },
-//       {
-//         _id: "61287a98d783f13644c57723",
-//         rating: 0,
-//         itemName: "gray pallette socks",
-//         size: "medium",
-//         stockQuantity: 1,
-//         price: "9.50",
-//         currency: "pounds",
-//         color: "white",
-//         categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
-//         imageUrl:
-//           "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
-//         option1Name: "sock",
-//         option2Name: null,
-//         createdAt: "2019-05-07T23:13:18.000Z",
-//         updatedAt: "2021-08-26T05:39:45.000Z",
-//         user: "61287a98d783f13644c5770c",
-//         reviews: [],
-//       },
-//       {
-//         _id: "61287a98d783f13644c57723",
-//         rating: 0,
-//         itemName: "gray pallette socks",
-//         size: "medium",
-//         stockQuantity: 1,
-//         price: "9.50",
-//         currency: "pounds",
-//         color: "white",
-//         categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
-//         imageUrl:
-//           "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
-//         option1Name: "sock",
-//         option2Name: null,
-//         createdAt: "2019-05-07T23:13:18.000Z",
-//         updatedAt: "2021-08-26T05:39:45.000Z",
-//         user: "61287a98d783f13644c5770c",
-//         reviews: [],
-//       },
-//       {
-//         _id: "61287a98d783f13644c57723",
-//         rating: 0,
-//         itemName: "gray pallette socks",
-//         size: "medium",
-//         stockQuantity: 1,
-//         price: "9.50",
-//         currency: "pounds",
-//         color: "white",
-//         categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
-//         imageUrl:
-//           "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
-//         option1Name: "sock",
-//         option2Name: null,
-//         createdAt: "2019-05-07T23:13:18.000Z",
-//         updatedAt: "2021-08-26T05:39:45.000Z",
-//         user: "61287a98d783f13644c5770c",
-//         reviews: [],
-//       },
-//       {
-//         _id: "61287a98d783f13644c57723",
-//         rating: 0,
-//         itemName: "gray pallette socks",
-//         size: "medium",
-//         stockQuantity: 1,
-//         price: "9.50",
-//         currency: "pounds",
-//         color: "white",
-//         categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
-//         imageUrl:
-//           "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
-//         option1Name: "sock",
-//         option2Name: null,
-//         createdAt: "2019-05-07T23:13:18.000Z",
-//         updatedAt: "2021-08-26T05:39:45.000Z",
-//         user: "61287a98d783f13644c5770c",
-//         reviews: [],
-//       },
-//       {
-//         _id: "61287a98d783f13644c57723",
-//         rating: 0,
-//         itemName: "gray pallette socks",
-//         size: "medium",
-//         stockQuantity: 1,
-//         price: "9.50",
-//         currency: "pounds",
-//         color: "white",
-//         categoryId: "964ee732-71b4-11ea-8d93-0603130a05b8",
-//         imageUrl:
-//           "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/b3a467fb-4c84-44b0-9be9-589391fa2065/U+NK+EVERYDAY+LTWT+CREW+3PR.png",
-//         option1Name: "sock",
-//         option2Name: null,
-//         createdAt: "2019-05-07T23:13:18.000Z",
-//         updatedAt: "2021-08-26T05:39:45.000Z",
-//         user: "61287a98d783f13644c5770c",
-//         reviews: [],
-//       },
-//     ],
-//   },
-// };
+const TITLE = "PRODUCTS";
 
 const ProductsScreen = () => {
   const dispatch = useDispatch();
 
   const { pathname } = useLocation();
   const pageName = pathname.split("/")[1];
+  const history = useHistory();
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
-
-  console.log({ productList });
 
   useEffect(() => {
     dispatch(listProducts());
@@ -163,6 +36,11 @@ const ProductsScreen = () => {
   // const products = get(currentPage, "items", []);
   // const title = get(currentPage, "title", "");
 
+  const clickHandler = (id) => {
+    console.log("is this hitting", id);
+    history.push(`/product/${id}`);
+  };
+
   return (
     <div>
       <Helmet>
@@ -172,7 +50,7 @@ const ProductsScreen = () => {
           content='Retaurant online store for delivery'></meta>
       </Helmet>
 
-      <h1 style={{ textAlign: "center" }}>{TITLE}</h1>
+      <Title>{TITLE}</Title>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -180,7 +58,12 @@ const ProductsScreen = () => {
       ) : (
         <div className={styles.productsContainer}>
           {products.map((product) => {
-            return <Card key={product?._id} {...product} />;
+            const { _id } = product;
+            return (
+              <a href={`/product/${_id}`} key={_id}>
+                <Card {...product} />
+              </a>
+            );
           })}
         </div>
       )}

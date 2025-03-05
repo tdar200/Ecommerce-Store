@@ -4,6 +4,7 @@ const Product = require("../models/productModel");
 const asyncHandler = require("express-async-handler");
 const protect = require("../middleware/authMiddleware");
 const admin = require("../middleware/authMiddleware");
+const Delivery = require("../models/deliveryModel");
 
 router.get(
   "/",
@@ -138,7 +139,14 @@ router.route("/").post(
   asyncHandler(async (req, res) => {
     try {
       console.log({ body: req.body });
-      const product = new Product(req.body);
+
+      let newDelivery = await new Delivery(req.body.delivery);
+
+      console.log({ newDelivery });
+
+      const product = await new Product({ ...req.body, delivery: newDelivery });
+
+      console.log({ product });
 
       const createdProduct = await product.save();
       res.status(201).json(createdProduct);

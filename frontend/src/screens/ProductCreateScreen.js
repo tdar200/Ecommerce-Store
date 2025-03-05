@@ -38,7 +38,7 @@ const CATEGORY_LIST = [
   "ELECTRONICS",
 ];
 
-const BRAND_LIST = ["LEVI"];
+const BRAND_LIST = ["LEVIS"];
 
 const ProductCreateScreen = ({ match, history }) => {
   const paramsArr = history.location.pathname.split("/");
@@ -61,14 +61,14 @@ const ProductCreateScreen = ({ match, history }) => {
   const [estimatedDelivery, setEstimatedDelivery] = useState(dayjs(new Date()));
 
   const cardItems = {
-    itemName: name,
-    price: sellingPrice,
+    item_name: name,
+    selling_price: sellingPrice,
     currency,
     size,
     stockQuantity: countInStock,
     color,
     category,
-    imageUrl: image,
+    image_url: image,
     gender,
   };
 
@@ -116,14 +116,14 @@ const ProductCreateScreen = ({ match, history }) => {
       sellingPrice,
       purchasePrice,
       image,
-      brand,
-      size,
-      category,
+      brand: brand.toLowerCase(),
+      size: size.toLowerCase(),
+      category: category.toLowerCase(),
       countInStock,
       color,
       description,
       gender: gender.toLowerCase(),
-      currency,
+      currency: currency.toLowerCase(),
       estimatedDelivery,
     };
 
@@ -312,14 +312,21 @@ const ProductCreateScreen = ({ match, history }) => {
                 </FormControl>
 
                 <FormControl sx={{ flexBasis: "47%" }}>
-                  <InputLabel id='outlined-input-brand'>Brand</InputLabel>
-                  <OutlinedInput
+                  <InputLabel id='brand-dropdown'>Brand</InputLabel>
+                  <Select
                     className={styles.inputWrapper}
-                    id='outlined-input-brand'
+                    labelId='brand-dropdown'
+                    id='brand-select'
                     label='Brand'
                     value={brand}
                     onChange={(e) => setBrand(e.target.value)}
-                  />
+                    required>
+                    {BRAND_LIST.map((brand, idx) => (
+                      <MenuItem key={brand - idx} value={brand}>
+                        {brand}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </FormControl>
 
                 <FormControl sx={{ flexBasis: "47%" }}>

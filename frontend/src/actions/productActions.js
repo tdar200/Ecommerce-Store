@@ -39,8 +39,6 @@ export const listProducts =
         // `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
-      console.log({ data });
-
       dispatch({
         type: PRODUCT_LIST_SUCCESS,
         payload: data,
@@ -81,6 +79,8 @@ export const listProductDetails = (id) => async (dispatch) => {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
     const { data } = await axios.get(`/api/products/${id}`);
+
+    console.log({ data });
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
@@ -155,9 +155,9 @@ export const createProduct = (product) => async (dispatch, getState) => {
       purchase_price: product.purchasePrice,
       selling_price: product.sellingPrice,
       image_url: product.image,
-      qunatity: product.countInStock,
+      quantity: product.countInStock,
       reviews: {},
-      category: { name: product.category },
+      category: product.category,
       delivery: { estimatedDeliveryDate: product.estimatedDelivery },
       ...product,
     };
@@ -167,7 +167,6 @@ export const createProduct = (product) => async (dispatch, getState) => {
       "sellingPrice",
       "image",
       "countInStock",
-      "category",
       "estimatedDelivery",
       "name",
     ]);

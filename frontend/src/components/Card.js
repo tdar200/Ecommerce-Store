@@ -8,6 +8,7 @@ function Card({
   item_name,
   selling_price,
   currency,
+  description,
   size,
   stockQuantity,
   color,
@@ -19,16 +20,21 @@ function Card({
   reviews,
   height,
   width,
+  brand,
 }) {
   return (
-    <div style={{ width: width, height: height }} className={styles.container}>
+    <div
+      key={_id}
+      style={{ width: width, height: height }}
+      className={styles.container}>
       <img className={styles.image} src={image_url} alt={item_name} />
       <div className={styles.descriptionWrapper}>
-        <h3 className={styles.title}>{item_name?.toUpperCase()}</h3>
-        <h4 className={styles.price}>
-          {currency === "GBP" ? "£ " : "PKR "}{" "}
+        <h4 className={styles.title}>{item_name?.toUpperCase()}</h4>
+        <h4 className={styles.brand}>{brand?.toUpperCase()}</h4>
+        <h3 className={styles.price}>
+          {currency === "gbp" ? "£" : "PKR"}{" "}
           {parseFloat(selling_price).toFixed(2)}
-        </h4>
+        </h3>
       </div>
     </div>
   );
