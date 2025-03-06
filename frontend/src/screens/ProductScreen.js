@@ -149,12 +149,12 @@ const ProductScreen = ({ match, history }) => {
                   </span>
                 )}
 
-                {/* {size && ( */}
-                <span className={styles.sizeSection}>
-                  <h4 className={styles.sizeTitle}>SIZE:</h4>
-                  <h4 className={styles.sizeName}>{size?.toLowerCase()}</h4>
-                </span>
-                {/* )} */}
+                {size && (
+                  <span className={styles.sizeSection}>
+                    <h4 className={styles.sizeTitle}>SIZE:</h4>
+                    <h4 className={styles.sizeName}>{size?.toLowerCase()}</h4>
+                  </span>
+                )}
               </div>
               <button className={styles.buttonWrapper}>ADD TO BAG</button>
               <h4 className={styles.freeShipping}>
