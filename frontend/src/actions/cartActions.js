@@ -8,21 +8,35 @@ import {
 
 export const addToCart = (id, qty, vid) => async (dispatch, getState) => {
   const { data } = await axios.get(`/api/products/${id}`);
-  const pd = data.variants.filter((items) => items.variant_id === vid);
 
-  // console.log(data)
-
+  const {
+    _id,
+    item_name,
+    selling_price,
+    currency,
+    description,
+    size,
+    stockQuantity,
+    color,
+    category,
+    image_url,
+    createdAt,
+    updatedAt,
+    user,
+    reviews,
+    height,
+    width,
+    brand,
+    gender,
+  } = data;
   dispatch({
     type: CART_ADD_ITEM,
     payload: {
-      product: data._id,
-      name: data.item_name,
-      image: data.image_url,
-      price: pd[0].default_price,
-      option1_value: pd[0].option1_value,
-      option2_value: pd[0].option2_value,
+      product: _id,
+      name: item_name,
+      image: image_url,
+      price: selling_price,
       qty,
-      vid,
     },
   });
 

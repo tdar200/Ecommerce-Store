@@ -16,8 +16,12 @@ import { addToCart, removeFromCart } from "../actions/cartActions";
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
 
+  console.log({ match, location, history });
+
   const qty = location.search ? Number(location.search.split("=")[2]) : 1;
-  const vid = location.search && location.search.split("=")[1].split("?")[0];
+  const vid = location.search
+    ? location.search.split("=")[1].split("?")[0]
+    : null;
 
   const dispatch = useDispatch();
 
@@ -60,7 +64,7 @@ const CartScreen = ({ match, location, history }) => {
             {cartItems.map((item, index) => {
               return (
                 <Row
-                  key={item.vid}
+                  key={item._id}
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -92,35 +96,7 @@ const CartScreen = ({ match, location, history }) => {
                   </Col>
 
                   <Col md={2}>Rs.{item.price}</Col>
-                  {/* <Col md={2}>
-                      <Form>
-                        <Button
-                          className='bi bi-plus'
-                          type='button'
-                          onClick={() =>
-                            dispatch(
-                              addToCart(
-                                item.product,
-                                Number(item.qty > 1 ? item.qty - 1 : item.qty)
-                              )
-                            )
-                          }
-                        >
-                          <i className='fas fa-minus-square' />
-                        </Button>
-                        <h3>{item.qty}</h3>
-                        <Button
-                          type='button'
-                          onClick={() =>
-                            dispatch(
-                              addToCart(item.product, Number(item.qty + 1))
-                            )
-                          }
-                        >
-                          <i className='fas fa-plus-square' />
-                        </Button>
-                      </Form>
-                    </Col> */}
+
                   <Col md={2}>
                     <Button
                       type='button'
@@ -158,20 +134,8 @@ const CartScreen = ({ match, location, history }) => {
               {/* ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) */}
             </h3>
           </Row>
-
-          {/* <Button
-                type='button'
-                className='btn-block'
-                disabled={cartItems.length === 0}
-                onClick={checkoutHandler}
-              >
-                Checkout
-              </Button> */}
         </Row>
       </div>
-      {/* <div style={{height: "70px", width:"100%", backgroundColor:"#ed1c24", position:"fixed", bottom:"0"}}>
-
-      </div> */}
     </Col>
   );
 };

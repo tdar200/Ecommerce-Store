@@ -1,24 +1,17 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { Link } from "react-router-dom";
-import { Row, Col, Card, Button, Container } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  listProductDetails,
-  createProductReview,
-} from "../actions/productActions";
+import { listProductDetails } from "../actions/productActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import Rating from "../components/Rating";
-import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 
 import styles from "../css/Product.module.css";
+
+const PHONE_NUMBER = "+923161432871";
 
 const ProductScreen = ({ match, history }) => {
   const [productList, setProductList] = useState({});
 
   const dispatch = useDispatch();
-
-  console.log({ dispatch });
 
   const productDetails = useSelector((state) => {
     return state.productDetails;
@@ -58,43 +51,7 @@ const ProductScreen = ({ match, history }) => {
 
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
-
-    // product?.variants &&
-    //   product.variants.map((items) => {
-    //     const pName = items.option1_value
-    //       ? items.option1_value
-    //       : product.item_name;
-
-    //     obj[pName] = 1;
-    //   });
-
-    // setProductList(() => ({ ...obj }));
-
-    // if (successProductReview) {
-    //   setRating(0);
-    //   setComment("");
-    // }
-
-    // if (successProductReview) {
-    //   dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
-    // }
   }, [match.params.id]);
-
-  // useMemo(() => {
-  //   if (productList) {
-  //     let list = { ...productList };
-  //     product.variants &&
-  //       product.variants.map((items, index1) => {
-  //         cartItems.map((cart, index2) => {
-  //           if (cart.vid === items.variant_id) {
-  //             list[cart.option1_value] = cart.qty;
-  //           }
-  //         });
-  //       });
-
-  //     setProductList(() => ({ ...list }));
-  //   }
-  // }, [cartItems, product.variants]);
 
   const decrement = (index) => {
     const list = { ...productList };
@@ -110,13 +67,10 @@ const ProductScreen = ({ match, history }) => {
     setProductList(list);
   };
 
-  const addToCartHandler = (vid, index) => {
-    history.push(
-      `/cart/${match.params.id}?vid=${vid}?qty=${productList[index]}`
-    );
+  const addToCartHandler = () => {
+    // history.push(`/cart/${match.params.id}?qty=1}`);
+    window.open(`https://wa.me/${PHONE_NUMBER}`, "_blank");
   };
-
-  console.log({ product });
 
   return (
     <div className={styles.container}>
@@ -127,8 +81,10 @@ const ProductScreen = ({ match, history }) => {
       ) : (
         <>
           <div
-            style={{ backgroundImage: `url(${image_url})` }}
-            className={styles.leftSection}></div>
+            // style={{ backgroundImage: `url(${image_url})` }}
+            className={styles.leftSection}>
+            <img src={image_url} alt={item_name}></img>
+          </div>
           <div className={styles.rightSection}>
             <div className={styles.rightSectionWrapper}>
               <div className={styles.productDescription}>
@@ -156,126 +112,23 @@ const ProductScreen = ({ match, history }) => {
                   </span>
                 )}
               </div>
-              <button className={styles.buttonWrapper}>ADD TO BAG</button>
+              <button
+                className={styles.buttonWrapper}
+                onClick={() => addToCartHandler()}>
+                Contact on Whatsapp
+              </button>
               <h4 className={styles.freeShipping}>
                 Free Standard Delivery on all orders
               </h4>
+
+              {description && (
+                <span className={styles.descriptionSection}>
+                  <h4 className={styles.descriptionTitle}>DESCRIPTION:</h4>
+                  <h4 className={styles.descriptionName}>{description}</h4>
+                </span>
+              )}
             </div>
           </div>
-
-          {/* <h1 style={{ textAlign: "center" }}>
-            <strong>{product.item_name}</strong>
-          </h1> */}
-          {/* <Row style={{ display: "flex", justifyContent: "center" }}>
-            {product.variants.map((item, index) => {
-              return (
-                <Col
-                  style={{ padding: "5px" }}
-                  sm={16}
-                  md={6}
-                  lg={4}
-                  xl={3}
-                  key={index}
-                >
-                  <Card className='my-3 p-3 rounded'>
-                    {item.option1_value && (
-                      <Card.Text
-                        style={{ textAlign: "center", marginBotton: "10px" }}
-                        as='div'
-                      >
-                        <strong> {item.option1_value} </strong>
-                      </Card.Text>
-                    )}
-                    <Card.Img
-                      style={{
-                        width: "100%",
-                        height: "350px",
-                        borderRadius: 3,
-                        objectFit: "cover",
-                      }}
-                      src={product.image_url}
-                      variant='top'
-                    />
-
-                    <Card.Body>
-                      {item.option2_value && (
-                        <Card.Text>{item.option2_value}</Card.Text>
-                      )}
-                      <Card.Title>Rs. {item.default_price}</Card.Title>
-
-                      <Col
-                        style={{
-                          marginTop: "10px",
-                          marginBottom: "5px",
-                          width: "100%",
-                        }}
-                        className='text-center py-3'
-                      >
-                        <Button
-                          className='social-media'
-                          type='button'
-                          onClick={() => decrement(item.option1_value)}
-                          style={{
-                            backgroundColor: "red",
-                            alignContent: "center",
-                            display: "inline-flex",
-                            marginInline: "10px",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "1.1em" }}
-                            className='fas fa-minus-square'
-                          />
-                        </Button>
-
-                        <Card.Subtitle
-                          style={{
-                            marginInline: "10px",
-                            alignContent: "center",
-                            display: "inline-flex",
-                          }}
-                        >
-                          Quantity : {productList[item.option1_value]}
-                        </Card.Subtitle>
-
-                        <Button
-                          type='button'
-                          className='social-media'
-                          onClick={() => increment(item.option1_value)}
-                          style={{
-                            backgroundColor: "red",
-                            alignContent: "center",
-                            display: "inline-flex",
-                            marginInline: "10px",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "1.1em" }}
-                            className='fas fa-plus-square'
-                          />
-                        </Button>
-                      </Col>
-
-                      <Button
-                        onClick={() =>
-                          addToCartHandler(item.variant_id, item.option1_value)
-                        }
-                        className='social-media'
-                        type='button'
-                        style={{
-                          width: "100%",
-                          backgroundColor: "red",
-                          fontSize: "0.6em",
-                        }}
-                      >
-                        ADD TO CART
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              );
-            })}
-          </Row> */}
         </>
       )}
     </div>

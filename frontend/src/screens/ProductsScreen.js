@@ -31,11 +31,6 @@ const ProductsScreen = () => {
     dispatch(listProducts());
   }, [dispatch]);
 
-  // const currentPage = PAGE_TYPE?.[pageName];
-
-  // const products = get(currentPage, "items", []);
-  // const title = get(currentPage, "title", "");
-
   const clickHandler = (id) => {
     console.log("is this hitting", id);
     history.push(`/product/${id}`);

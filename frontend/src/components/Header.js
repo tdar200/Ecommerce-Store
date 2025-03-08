@@ -42,10 +42,9 @@ const adminPages = [
 
 const pages = [
   { title: "Products", link: "/products" },
-  { title: "Pricing" },
-  { title: "Blog" },
-  { title: "Hello" },
+  { title: "Cart", link: "/cart" },
 ];
+
 const settings = [
   { title: "Profile" },
   { title: "Account" },
@@ -54,8 +53,6 @@ const settings = [
 ];
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [adminOpen, setAdminOpen] = useState(false);
   const device = isMobileScreen();
 
   const history = useHistory();
@@ -99,13 +96,15 @@ const Header = () => {
       <AppBar position='static'>
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
-            <a href='/'>
-              <img
-                src={logo}
-                alt='BACKYARD BBQ RESTAURANT'
-                className={styles.navbarLogo}
-              />
-            </a>
+            {device > 400 && (
+              <a href='/'>
+                <img
+                  src={logo}
+                  alt='BACKYARD BBQ RESTAURANT'
+                  className={styles.navbarLogo}
+                />
+              </a>
+            )}
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -134,7 +133,7 @@ const Header = () => {
                 sx={{ display: { xs: "block", md: "none" } }}>
                 {pages.map((page) => {
                   const { title, link } = page;
-                  return (
+                  return title === "Cart" && device > 400 ? null : (
                     <MenuItem
                       key={title}
                       onClick={() => handleCloseNavMenu(link)}>
@@ -160,13 +159,15 @@ const Header = () => {
                 );
               })}
             </Box>
-            <Box sx={{ marginRight: "1rem" }}>
-              <a className='link' href='/cart'>
-                <span className='icon'>
-                  <ShoppingCartIcon className='icon' fontSize='small' /> CART
-                </span>
-              </a>
-            </Box>
+            {device > 400 && (
+              <Box sx={{ marginRight: "1rem" }}>
+                <a className='link' href='/cart'>
+                  <span className='icon'>
+                    <ShoppingCartIcon className='icon' fontSize='small' /> CART
+                  </span>
+                </a>
+              </Box>
+            )}
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -203,7 +204,7 @@ const Header = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
     </>
     // <>
     //   <nav className='navbar'>

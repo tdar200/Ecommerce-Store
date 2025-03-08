@@ -1,8 +1,11 @@
 .container {
+
+    width: 100%;
     background-color: #062233;
     color: white;
     display: flex;
     justify-content: center;
+
 }
 
 .footerWrapper {
@@ -32,4 +35,16 @@
 
 .iconWrapper {
     margin-right: 9px;
+}
+
+@media screen and (max-width: 400px) {
+    .buttonContainer {
+        flex-direction: column;
+    }
+
+    .buttonWrapper {
+        width: 210px;
+        padding: 5px;
+    }
+    
 }
