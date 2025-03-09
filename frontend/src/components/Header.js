@@ -171,7 +171,9 @@ const Header = () => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {/* <div className={styles.profile}>{name[0]?.toUpperCase()}</div> */}
+                  <div className={styles.profile}>
+                    {userInfo?.name[0]?.toUpperCase()}
+                  </div>
                 </IconButton>
               </Tooltip>
               <Menu
