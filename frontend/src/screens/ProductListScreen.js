@@ -103,7 +103,6 @@ const ProductListScreen = ({ history, match }) => {
             </thead>
             <>
               {products?.map((product) => {
-                console.log({ product });
                 return <div key={product._id}> </div>;
               })}
             </>

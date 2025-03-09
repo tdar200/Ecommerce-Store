@@ -33,8 +33,12 @@ import SalaryListScreen from "./screens/SalaryListScreen";
 import FinancialSummaryScreen from "./screens/FinancialSummaryScreen";
 import BillScreen from "./screens/BillScreen";
 import "./index.css";
+import axios from "axios";
 
 const App = () => {
+  axios.defaults.baseURL =
+    process.env.REACT_APP_API_BASE_URL ?? "http://localhost:6001";
+
   const withHeader = () => {
     return (
       <>

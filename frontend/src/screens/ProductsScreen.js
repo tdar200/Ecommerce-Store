@@ -32,7 +32,6 @@ const ProductsScreen = () => {
   }, [dispatch]);
 
   const clickHandler = (id) => {
-    console.log("is this hitting", id);
     history.push(`/product/${id}`);
   };
 

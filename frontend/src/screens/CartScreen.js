@@ -16,8 +16,6 @@ import { addToCart, removeFromCart } from "../actions/cartActions";
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
 
-  console.log({ match, location, history });
-
   const qty = location.search ? Number(location.search.split("=")[2]) : 1;
   const vid = location.search
     ? location.search.split("=")[1].split("?")[0]

@@ -169,13 +169,15 @@ const Header = () => {
               </Box>
             )}
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title='Open settings'>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <div className={styles.profile}>
-                    {userInfo?.name[0]?.toUpperCase()}
-                  </div>
-                </IconButton>
-              </Tooltip>
+              {userInfo?.name[0] && (
+                <Tooltip title='Open settings'>
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <div className={styles.profile}>
+                      {userInfo?.name[0]?.toUpperCase()}
+                    </div>
+                  </IconButton>
+                </Tooltip>
+              )}
               <Menu
                 sx={{ mt: "45px" }}
                 id='menu-appbar'

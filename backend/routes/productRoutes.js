@@ -138,15 +138,9 @@ router.route("/").post(
   admin,
   asyncHandler(async (req, res) => {
     try {
-      console.log({ body: req.body });
-
       let newDelivery = await new Delivery(req.body.delivery);
 
-      console.log({ newDelivery });
-
       const product = await new Product({ ...req.body, delivery: newDelivery });
-
-      console.log({ product });
 
       const createdProduct = await product.save();
       res.status(201).json(createdProduct);
