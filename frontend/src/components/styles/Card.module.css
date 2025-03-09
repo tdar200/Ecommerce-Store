@@ -33,3 +33,27 @@
     font-size: 1.5rem;
     font-weight: 600;
 }
+
+@media screen and (max-width:400px) {
+
+    .descriptionWrapper{
+        padding: 0;
+    }
+
+    .title {
+        font-size: 0.9rem;
+        line-height: 1;
+    }
+
+    .brand {
+        margin-top: 0.5rem;
+        font-size: 0.65rem;
+    }
+
+    .price {
+        font-size: 0.9rem;
+        padding: 0;
+        margin-top: 0.5rem;
+    }
+  
+}

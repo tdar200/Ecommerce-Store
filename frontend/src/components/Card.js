@@ -32,7 +32,7 @@ function Card({
         <h4 className={styles.title}>{item_name?.toUpperCase()}</h4>
         <h4 className={styles.brand}>{brand?.toUpperCase()}</h4>
         <h3 className={styles.price}>
-          {currency === "gbp" ? "£" : "PKR"}{" "}
+          {currency === "gbp" || currency === "GBP" ? "£" : "PKR"}{" "}
           {parseFloat(selling_price).toFixed(2)}
         </h3>
       </div>

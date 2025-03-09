@@ -96,7 +96,7 @@ const Header = () => {
       <AppBar position='static'>
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
-            {device > 400 && (
+            {device > 900 && (
               <a href='/'>
                 <img
                   src={logo}
@@ -159,6 +159,17 @@ const Header = () => {
                 );
               })}
             </Box>
+
+            {device < 900 && (
+              <a className={styles.navbarLink} href='/'>
+                <img
+                  src={logo}
+                  alt='BACKYARD BBQ RESTAURANT'
+                  className={styles.navbarLogo}
+                />
+              </a>
+            )}
+
             {device > 400 && (
               <Box sx={{ marginRight: "1rem" }}>
                 <a className='link' href='/cart'>
