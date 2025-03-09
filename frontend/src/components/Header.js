@@ -83,9 +83,9 @@ const Header = () => {
   };
 
   const userLogin = useSelector((state) => state.userLogin);
-  const {
-    userInfo: { isAdmin, name },
-  } = userLogin;
+  const { userInfo } = userLogin;
+
+  const isAdmin = userInfo?.isAdmin ?? null;
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -149,7 +149,7 @@ const Header = () => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page, idx) => {
                 const { title, link } = page;
-                return (
+                return title === "Cart" ? null : (
                   <Button
                     key={title - idx}
                     onClick={() => handleCloseNavMenu(link)}
@@ -171,7 +171,7 @@ const Header = () => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <div className={styles.profile}>{name[0]?.toUpperCase()}</div>
+                  {/* <div className={styles.profile}>{name[0]?.toUpperCase()}</div> */}
                 </IconButton>
               </Tooltip>
               <Menu

@@ -12,11 +12,10 @@ const HomeScreen = ({ match, history }) => {
 
   const productTopRated = useSelector((state) => state.productTopRated);
   const { loading, error, products } = productTopRated;
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     dispatch(listTopProducts());
-  }, [dispatch, screenWidth]);
+  }, [dispatch]);
 
   const handleClick = (id) => {
     history.push(`/product/${id}`);
@@ -31,9 +30,9 @@ const HomeScreen = ({ match, history }) => {
 
       {!loading && (
         <>
-          <ExploreProducts />
-          <DealsComponent />
           <Carousel />
+          <DealsComponent />
+          <ExploreProducts />
         </>
       )}
 
