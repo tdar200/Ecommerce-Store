@@ -1,6 +1,24 @@
-.container {height: 65vh;
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-flex: 1;
+.container {
+    height: 95vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex: 1;
+}
+
+.descriptionContainer { 
+    text-align: center;
+    color: white;
+    /* font-style: oblique; */
+    /* font-family: serif; */
+    text-decoration: underline;
+}
+
+.header {
+    font-size: 3rem;
+}
+
+.subHeader {
+    font-size: 2rem;
+    padding: 0;
 }

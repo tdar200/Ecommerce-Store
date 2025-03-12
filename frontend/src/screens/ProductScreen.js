@@ -80,9 +80,7 @@ const ProductScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <div
-            // style={{ backgroundImage: `url(${image_url})` }}
-            className={styles.leftSection}>
+          <div className={styles.leftSection}>
             <img src={image_url} alt={item_name}></img>
           </div>
           <div className={styles.rightSection}>

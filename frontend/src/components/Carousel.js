@@ -8,31 +8,32 @@ const TIMER = 3000;
 const list = [
   {
     id: 1,
-    heading: "This is the first slide",
-    subHeading: "",
+    brand: "DIOR",
+    product: "Sauvage",
     imageURL:
-      "https://thebigsmoke.com.au/wp-content/uploads/happy-people-group-fb.jpg",
+      "https://www.dior.com/dw/image/v2/BGXS_PRD/on/demandware.static/-/Library-Sites-DiorSharedLibrary/default/dwcd977ac7/images/beauty/01-FRAGRANCES/2024/SAUVAGE-EAU-FORTE/PLP/A24F094_SAUVAGE_EAU_FORTE_Instit_Pack_5550x2000.jpg?sw=1850",
   },
   {
-    id: 1,
-    heading: "This is the second slide",
-    subHeading: "",
+    id: 2,
+    brand: "BOSS",
+    product: "",
     imageURL:
-      "https://kmd-assets.imgix.net/catalog/product/b/0/b0399_o4v_trl_tough_mens_pants_green_a.jpg?auto=compress%2Cformat&fit=cover&ar=100%3A100&ixlib=react-9.5.1-beta.1",
+      "https://media.gq-magazine.co.uk/photos/610a5f64ab26d1956f02ce97/16:9/w_1920,c_limit/32447-1_1920.00x1080.00_BOSS%20BOTTLED%2020%20_%20EDT%20KV%20_%20W_O%20CTA%20.jpg",
   },
   {
-    id: 1,
-    heading: "This is the third slide",
-    subHeading: "",
+    id: 3,
+    brand: "Maison Francis Kurkdjian",
+    product: "Baccarat Rouge 540",
     imageURL:
-      "https://thebigsmoke.com.au/wp-content/uploads/happy-people-group-fb.jpg",
+      "https://cdn.mos.cms.futurecdn.net/9zRvyUqMXpBAJi4EmFyzQ9-1280-80.jpg",
   },
+
   {
-    id: 1,
-    heading: "This is the last slide",
-    subHeading: "",
+    id: 4,
+    brand: "CHANEL",
+    product: "N° 5",
     imageURL:
-      "https://thebigsmoke.com.au/wp-content/uploads/happy-people-group-fb.jpg",
+      "https://i.guim.co.uk/img/media/6e87213df103952c1a030a472a3bf1e24303b172/0_400_4724_2834/master/4724.jpg?width=1200&quality=85&auto=format&fit=max&s=25f4241df13ff40895f19620f50ac0fc",
   },
 ];
 
@@ -59,8 +60,8 @@ function Carousel() {
 
   const currentId = get(currentSlide, "id", "");
   const currentImage = get(currentSlide, "imageURL", "");
-  const currentHeading = get(currentSlide, "heading", "");
-  const currentSubHeading = get(currentSlide, "subHeading", "");
+  const currentHeading = get(currentSlide, "brand", "");
+  const currentSubHeading = get(currentSlide, "product", "");
 
   const handleSlider = (idx) => {
     setSliderIndex(idx);
@@ -76,7 +77,8 @@ function Carousel() {
           }}>
           <div className={styles.descriptionContainer}>
             <h1 className={styles.header}>{currentHeading}</h1>
-            <h2>{currentSubHeading}</h2>
+            <h2 className={styles.subHeading}>{currentSubHeading}</h2>
+            <h3 className={styles.shopNow}>SHOP NOW</h3>
           </div>
         </div>
       </div>

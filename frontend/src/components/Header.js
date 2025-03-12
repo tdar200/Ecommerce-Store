@@ -93,7 +93,7 @@ const Header = () => {
 
   return (
     <>
-      <AppBar position='static'>
+      <AppBar sx={{ backgroundColor: "#062233" }} position='static'>
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
             {device > 900 && (
