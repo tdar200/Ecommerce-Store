@@ -9,6 +9,7 @@ const Delivery = require("../models/deliveryModel");
 router.get(
   "/",
   asyncHandler(async (req, res) => {
+    console.log({ req, res });
     const pageSize = 10;
     const page = req.query.pageNumber || 1;
     const keyword = req.query.keyword
