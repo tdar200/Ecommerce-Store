@@ -66,8 +66,7 @@ app.use(errorHandler);
 const PORT = 6001;
 
 app.listen(
-  443,
-  "0.0.0.0",
+  PORT,
   console.log(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
   )
