@@ -43,7 +43,7 @@ const App = () => {
     return (
       <>
         <Header />
-        <main style={{ background: "#fff7f7" }} className='py-3'>
+        <main className='py-3'>
           <Container>
             <Switch>
               <Route path='/page/:pageNumber' component={HomeScreen} exact />

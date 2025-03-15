@@ -17,7 +17,6 @@ import {
   RECEIPT_REMOVE_FAIL,
 } from "../constants/receiptConstants";
 import { logout } from "./userActions";
-// const receiptData = require("../receiptData");
 
 export const listReceipt =
   (pageNumber = "") =>

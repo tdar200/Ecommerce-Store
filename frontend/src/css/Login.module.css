@@ -1,0 +1,52 @@
+.container {
+padding: 1rem;
+display: flex;
+height: 90vh;
+text-align: -webkit-center;
+}
+
+.containerWrapper {
+    background-color: white;
+    width: 100%;
+    /* box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
+    width: 100%; */
+}
+
+.formContainer {
+    padding: 1rem;
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.buttonWrapper {
+    margin-top: 1rem;
+    color: white;
+    background-color: #062233;
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 20vw;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.ssoContainer {
+    margin-top: 7rem;
+}
+
+.googleButton {
+    margin-top: 1rem;
+}
+
+.accountContainer {
+    margin-top: 5rem;
+}
+
+@media screen and (max-width: 900px) {
+    .buttonWrapper {
+        width: 60vw;
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+}
