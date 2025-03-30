@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
 
-import { BREAKPOINTS } from "../hooks/isMobileScreen";
-
 import isMobileScreen from "../hooks/isMobileScreen";
 
 import logo from "../../src/BACKYARD-BBQ.svg";
@@ -27,9 +25,11 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+
 const adminPages = [
   { title: "Users", link: "/admin/userlist" },
-  { title: "Products", link: "/admin/productlist" },
+  { title: "Product List", link: "/admin/productlist" },
+  { title: "Create Product", link: "/admin/product/create" },
   { title: "Order", link: "/admin/orderlist" },
   { title: "Expenses", link: "/admin/inventorylist" },
   { title: "Receipts", link: "/admin/receiptlist" },
@@ -170,7 +170,7 @@ const Header = () => {
               </a>
             )}
 
-            {device > 400 && (
+            {/* {device > 400 && (
               <Box sx={{ marginRight: "1rem" }}>
                 <a className='link' href='/cart'>
                   <span className='icon'>
@@ -178,7 +178,7 @@ const Header = () => {
                   </span>
                 </a>
               </Box>
-            )}
+            )} */}
             <Box sx={{ flexGrow: 0 }}>
               {userInfo?.name[0] && (
                 <Tooltip title='Open settings'>
@@ -221,75 +221,6 @@ const Header = () => {
       </AppBar>
       {/* <NavigationBar /> */}
     </>
-    // <>
-    //   <nav className='navbar'>
-    //     <div className='navbar-container'>
-    //       <a href='/'>
-    //         <img
-    //           src={logo}
-    //           alt='BACKYARD BBQ RESTAURANT'
-    //           className='navbar-logo'
-    //         />
-    //       </a>
-    //       {device < BREAKPOINTS.tablet && (
-    //         <button
-    //           className='navbar-toggle'
-    //           onClick={() => setIsOpen(!isOpen)}>
-    //           ☰
-    //         </button>
-    //       )}
-    //     </div>
-    //     <div className={`navbar-links ${isOpen ? "open" : ""}`}>
-    //       {userInfo ? (
-    //         <div className='dropdown'>
-    //           <button className='dropdown-toggle'>{userInfo.name}</button>
-    //           <div className='dropdown-menu'>
-    //             <a href='/profile'>Profile</a>
-    //             <button onClick={logoutHandler}>Logout</button>
-    //           </div>
-    //         </div>
-    //       ) : (
-    //         <a className='link' href='/login'>
-    //           <span className='icon'>
-    //             {" "}
-    //             <PersonIcon fontSize='small' /> SIGN IN{" "}
-    //           </span>
-    //         </a>
-    //       )}
-    //       {userInfo && userInfo.isAdmin && (
-    //         <div className='dropdown'>
-    //           <button
-    //             className='dropdown-toggle'
-    //             onClick={() => setAdminOpen((prev) => !prev)}>
-    //             ADMIN
-    //           </button>
-    //           {adminOpen && (
-    //             <div>
-    //               <a href='/admin/userlist'>Users</a>
-    //               <a href='/admin/productlist'>Products</a>
-    //               <a href='/admin/orderlist'>Orders</a>
-    //               <a href='/admin/inventorylist'>Expenses</a>
-    //               <a href='/admin/receiptlist'>Receipts</a>
-    //               <a href='/admin/salarylist'>Salaries</a>
-    //               <a href='/admin/recipelist'>Recipes</a>
-    //               <a href='/admin/inventorylevellist'>Inventory Levels</a>
-    //               <a href='/admin/billlist'>Bill Payable / Receivable</a>
-    //               <a href='/admin/financialsummary'>Financial Summary</a>
-    //             </div>
-    //           )}
-    //         </div>
-    //       )}
-
-    //       <a className='link' href='/cart'>
-    //         <span className='icon'>
-    //           {" "}
-    //           <ShoppingCartIcon className='icon' fontSize='small' /> CART
-    //         </span>
-    //       </a>
-    //     </div>
-    //   </nav>
-    //   <NavigationBar />
-    // </>
   );
 };
 

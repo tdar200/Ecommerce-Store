@@ -1,0 +1,42 @@
+.container {
+    /* height: 100vh; */
+}
+
+.headerContainer {
+
+    margin-bottom: 1rem;
+
+}
+
+.tableContainer {
+    max-height: 1000px;
+}
+
+.tableImage {
+width: 10vw;
+}
+
+.createButtonWrapper {
+    margin-top: 1rem;
+    color: white;
+    background-color: #062233;
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 20vw;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
+.buttonWrapper {
+    margin-top: 1rem;
+    color: white;
+    background-color: #062233;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    width: 5vw;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}

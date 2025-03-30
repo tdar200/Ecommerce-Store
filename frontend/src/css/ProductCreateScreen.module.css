@@ -43,6 +43,10 @@
     margin-bottom: 1rem;
 }
 
+.buttonContainer {
+    width: 100%;
+}
+
 .buttonWrapper{
     border-radius: 1rem;
     background-color:  #062233;
@@ -60,3 +64,27 @@
     margin: 1rem;
 }
 
+
+
+@media screen and (max-width: 900px) {
+
+    .container {
+        padding-bottom: 100px;
+        margin-bottom: 100px;
+    }
+    
+    .formContainer {
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 100px;
+        margin-bottom: 100px;
+    }
+
+    
+
+    .buttonWrapper {
+        margin-top: 2rem;
+        margin-bottom: 10rem;
+        width: 100%;
+    }
+}

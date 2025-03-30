@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -10,6 +8,17 @@ import {
   createProduct,
 } from "../actions/productActions";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
+
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+
+import styles from "../css/ProductList.module.css";
+import { Title } from "../components/Typography";
 
 const ProductListScreen = ({ history, match }) => {
   const pageNumber = match.params.pageNumber || 1;
@@ -70,17 +79,10 @@ const ProductListScreen = ({ history, match }) => {
   };
 
   return (
-    <>
-      <Row className='align-items-center'>
-        <Col>
-          <h1>Products List</h1>
-        </Col>
-        <Col className='text-right'>
-          <Button className='my-3' onClick={createProductHandler}>
-            <i className='fas fa-plus'></i> Create Product
-          </Button>
-        </Col>
-      </Row>
+    <div className={styles.container}>
+      <div className={styles.headerContainer}>
+        <Title>Products List</Title>
+      </div>
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
       {loadingCreate && <Loader />}
@@ -90,27 +92,77 @@ const ProductListScreen = ({ history, match }) => {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <>
-          <Table striped bordered hover className='table-sm'>
-            <thead>
-              <tr>
-                <th>VARIANT ID</th>
-                <th>CATEGORY</th>
-                <th>OPTION1_VALUE</th>
-                <th>SIZE</th>
-                <th>PRICE</th>
-              </tr>
-            </thead>
-            <>
-              {products?.map((product) => {
-                return <div key={product._id}> </div>;
-              })}
-            </>
-          </Table>
-          {/* <Paginate pages={pages} page={page} isAdmin={true} /> */}
-        </>
+        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <TableContainer sx={{ maxHeight: "65vh" }}>
+            <Table stickyHeader aria-label='sticky table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell>IMAGE</TableCell>
+                  <TableCell>NAME</TableCell>
+                  <TableCell>CATEGORY</TableCell>
+                  <TableCell>CURRENCY</TableCell>
+                  <TableCell>SELLING PRICE</TableCell>
+                  <TableCell>PURCHASE PRICE</TableCell>
+                  <TableCell>SIZE</TableCell>
+                  <TableCell>STOCK QUANTITY</TableCell>
+                  <TableCell>EDIT</TableCell>
+                  <TableCell>DELETE</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {products?.map((product) => {
+                  const {
+                    _id,
+                    item_name,
+                    purchase_price,
+                    selling_price,
+                    currency,
+                    description,
+                    size,
+                    quantity,
+                    color,
+                    category,
+                    image_url,
+                    createdAt,
+                    updatedAt,
+                    user,
+                    reviews,
+                    height,
+                    width,
+                    brand,
+                    gender,
+                  } = product;
+                  return (
+                    <TableRow hover role='checkbox' tabIndex={-1} key={_id}>
+                      <TableCell>
+                        <img
+                          className={styles.tableImage}
+                          src={image_url}
+                          alt={item_name}
+                        />
+                      </TableCell>
+                      <TableCell>{item_name}</TableCell>
+                      <TableCell>{category}</TableCell>
+                      <TableCell>{currency}</TableCell>
+                      <TableCell>{selling_price}</TableCell>
+                      <TableCell>{purchase_price}</TableCell>
+                      <TableCell>{size}</TableCell>
+                      <TableCell>{quantity}</TableCell>
+                      <TableCell>
+                        <button className={styles.buttonWrapper}>Edit</button>
+                      </TableCell>
+                      <TableCell>
+                        <button className={styles.buttonWrapper}>Delete</button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
       )}
-    </>
+    </div>
   );
 };
 

@@ -11,7 +11,6 @@ import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
 
 import Card from "../components/Card";
 
-import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -25,6 +24,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import styles from "../css/ProductCreateScreen.module.css";
+import { Title } from "../components/Typography";
+
+import isMobileScreen from "../hooks/isMobileScreen";
 
 const GENDER_LIST = ["UNISEX", "MALE", "FEMALE"];
 const SIZE_LIST = ["Extra Small", "Small", "Medium", "Large", "Extra Large"];
@@ -45,6 +47,8 @@ const ProductCreateScreen = ({ match, history }) => {
   const lastParam = paramsArr[paramsArr.length - 1];
 
   const productId = match.params.id;
+
+  const device = isMobileScreen();
 
   const [name, setName] = useState("");
   const [sellingPrice, setSellingPrice] = useState(0);
@@ -137,9 +141,7 @@ const ProductCreateScreen = ({ match, history }) => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.formTitle}>
-        {isCreate ? "Create Product" : "Edit Product"}
-      </h1>
+      <Title>{isCreate ? "Create Product" : "Edit Product"}</Title>
       {loadingUpdate && !isCreate && <Loader />}
       {errorUpdate && !isCreate && (
         <Message variant='danger'>{errorUpdate}</Message>
@@ -383,19 +385,32 @@ const ProductCreateScreen = ({ match, history }) => {
                 />
               </FormControl>
 
-              <button className={styles.buttonWrapper} type='submit'>
-                {isCreate ? "Create" : "Update"}
-              </button>
+              {device > 900 && (
+                <button className={styles.buttonWrapper} type='submit'>
+                  {isCreate ? "Create" : "Update"}
+                </button>
+              )}
             </form>
           </div>
           <div className={styles.previewWrapper}>
-            <Card {...cardItems} height={"80vh"} width={"50vh"} />
+            <Card
+              {...cardItems}
+              height={device > 900 ? "80vh" : "60vh"}
+              width={device > 900 ? "50vh" : "40vh"}
+            />
             <div className={styles.profitWrapper}>
               <span>
                 Profit : {currency} {Number(profit).toFixed(2)}{" "}
               </span>
               <span>Margin : {isNaN(margin) ? 0 : margin} %</span>
             </div>
+          </div>
+          <div className={styles.buttonContainer}>
+            {device < 900 && (
+              <button className={styles.buttonWrapper} type='submit'>
+                {isCreate ? "Create" : "Update"}
+              </button>
+            )}
           </div>
         </div>
       )}
