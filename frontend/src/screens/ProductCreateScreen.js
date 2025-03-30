@@ -384,19 +384,32 @@ const ProductCreateScreen = ({ match, history }) => {
                   variant='standard'
                 />
               </FormControl>
-
               {device > 900 && (
-                <button className={styles.buttonWrapper} type='submit'>
-                  {isCreate ? "Create" : "Update"}
-                </button>
+                <div className={styles.buttonContainer}>
+                  <button className={styles.buttonWrapper} type='submit'>
+                    {isCreate ? "Create" : "Update"}
+                  </button>
+                </div>
               )}
             </form>
           </div>
           <div className={styles.previewWrapper}>
             <Card
               {...cardItems}
-              height={device > 900 ? "80vh" : "60vh"}
-              width={device > 900 ? "50vh" : "40vh"}
+              height={
+                device > 900
+                  ? "80vh"
+                  : device < 900 && device > 400
+                  ? "60vh"
+                  : "50vh"
+              }
+              width={
+                device > 900
+                  ? "50vh"
+                  : device < 900 && device > 400
+                  ? "40vh"
+                  : "100%"
+              }
             />
             <div className={styles.profitWrapper}>
               <span>
@@ -405,13 +418,13 @@ const ProductCreateScreen = ({ match, history }) => {
               <span>Margin : {isNaN(margin) ? 0 : margin} %</span>
             </div>
           </div>
-          <div className={styles.buttonContainer}>
-            {device < 900 && (
+          {device < 900 && (
+            <div className={styles.buttonContainer}>
               <button className={styles.buttonWrapper} type='submit'>
                 {isCreate ? "Create" : "Update"}
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       )}
     </div>
